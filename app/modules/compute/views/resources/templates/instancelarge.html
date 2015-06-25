@@ -1,0 +1,37 @@
+<div class="csf-card-large csf-instance-large">
+  <div class="csf-resource-header" >
+      <div class="csf-power-btn" csf-suspend-modal resource="resource">
+          <a href="" resource-status-class-toggle status="resource.status" >
+            <i tooltip="Suspend/Resume" tooltip-placement="top"
+               tooltip-popup-delay='1000'
+               class="csf-power-icon fa fa-power-off fa-lg">
+            </i>
+          </a>
+      </div>
+      <div class="csf-header-container">
+          <a href="/#/compute/zones/id/{{resource.zoneId}}/resources/id/{{resource.id}}/summary"
+             target="_self"
+             resource-status-class-toggle
+             status="resource.status">
+              <i class="csf-resource-icon fa fa-desktop fa-2x"></i>
+          </a>
+          <div text-scroller class="csf-resource-label"
+               tooltip="{{resource.name}}"
+               tooltip-placement="bottom"
+               tooltip-popup-delay='1000'>
+              <a href="/#/compute/zones/id/{{resource.zoneId}}/resources/id/{{resource.id}}/summary"
+                 target="_self"
+                 class="csf-link-label"
+                 resource-status-class-toggle
+                 status="resource.status">{{resource.name}}</a></div>
+      </div>
+  </div>
+  <div class="csf-property-list">
+      <span class="csf-property-label">Private IP : </span><span class="csf-property-value">{{resource.ip}}</span><br/>
+      <span class="csf-property-label">CPUs : </span><span class="csf-property-value">{{resource.cpus}}</span><br/>
+      <span class="csf-property-label">RAM : </span><span class="csf-property-value">{{resource.ram_gb}}GB</span><br/>
+      <span class="csf-property-label">Disk Size : </span><span class="csf-property-value">{{resource.disk}}GB</span><br/>
+      <span class="csf-property-label">Platform : </span><span class="csf-property-value">{{resource.platform}}</span><br/>
+      <span class="csf-property-label">Monitoring : </span><span class="csf-property-value">{{resource.status}}</span>
+  </div>
+</div>

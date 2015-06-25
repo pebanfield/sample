@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 ng-show="!updateMode">Add New DNS Record</h3>
+    <h3 ng-show="updateMode">Update DNS Record</h3>
+</div>
+<div class="modal-body">
+    <p>
+        Enter the new desired DNS mapping for {{instance.ip}}
+    </p>
+    <div class="input-append">
+        <input type="text" placeholder="hostname" class="input-large" ng-model="newRecord" ng-change="inputStatus = ''"/>
+        <button class="btn"
+            id="btnTestAvailability"
+            ng-click="testRecord()"
+            ng-disabled="newRecord.length < 1"
+            >Test Availability</button>
+    </div>
+    <div class="status-msg" ng-switch="inputStatus">
+        <div ng-switch-when="available" class="alert alert-success">
+            <i class="fa fa-thumbs-up-alt"></i>
+            <em>{{newRecord}}.{{DNSSuffix}}</em> is available!
+        </div>
+        <div ng-switch-when="unavailable" class="alert alert-error">
+            <i class="fa fa-frown"></i>
+            Not Available
+        </div>
+        <div ng-switch-when="invalid" class="alert alert-error">
+            <i class="fa fa-remove-sign"></i>
+            DNS names must begin with a letter and can only contain alphanumeric characters and the hyphen ('-'). Please use a valid DNS name.
+        </div>
+        <div ng-switch-when="checking" class="alert alert-info">
+            <i class="fa fa-spinner"></i>
+            Checking Availability...
+        </div>
+        <div ng-switch-when="deleting" class="alert alert-info">
+            <i class="fa fa-spinner"></i>
+            Deleting {{instance.selectedRecord}}
+        </div>
+        <div ng-switch-when="deletefail" class="alert alert-info">
+            <i class="fa fa-remove-sign"></i>
+            Failed to delete old record. Contact support.
+        </div>
+        <div ng-switch-when="adding" class="alert alert-info">
+            <i class="fa fa-spinner"></i>
+            Adding {{newRecord}}.{{DNSSuffix}}
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" data-dismiss="modal">
+        <i class="fa fa-remove-sign"></i>
+        Cancel
+    </button>
+    <button
+            class="btn btn-primary add"
+            ng-click="addRecord()"
+            ng-disabled="inputStatus != 'available'"
+            ng-show="!updateMode"
+            ><i class=fa fa-plus-sign></i>
+        Add Record
+    </button>
+    <button
+            class="btn btn-primary"
+            ng-click="updateRecord()"
+            ng-disabled="inputStatus != 'available'"
+            ng-show="updateMode"
+            ><i class=fa fa-plus-sign></i>
+        Update Record
+    </button>
+</div>

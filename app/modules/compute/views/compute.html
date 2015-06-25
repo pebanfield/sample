@@ -1,0 +1,36 @@
+<div class="clearfix">
+  <h2 class="csf-subsection-header">Compute > Resources</h2>
+  <div>
+    <div ng-include="'modules/compute/partials/zoneselector.html'" class="pull-left">
+    </div>
+    <div class="pull-right">
+      <div class="zone-view-toggle btn-group pull-left">
+        <label class="btn btn-default btn-md csf-btn" ng-model="compute.zoomViewState" btn-radio="'large'">
+          <i class="fa fa-th-large" tooltip="Large sized resource view" ></i>
+        </label>
+        <!--<label class="btn btn-default btn-md dtss-btn" ng-model="zoomViewState" btn-radio="'medium'">-->
+          <!--<i class="fa fa-th" tooltip="Medium sized resource view" ></i>-->
+        <!--</label>-->
+        <label class="btn btn-default btn-md dtss-btn" ng-model="compute.zoomViewState" btn-radio="'list'">
+          <i class="fa fa-list-alt" tooltip="List based resource view" ></i>
+        </label>
+      </div>
+      <!--<a class="btn btn-default btn-md pull-right dtss-action-btn" tooltip="Create Zone">-->
+        <!--<i class="fa fa-retweet"></i>-->
+        <!--<i class="fa fa-plus-circle"></i>-->
+      <!--</a>-->
+    </div>
+  </div>
+</div>
+
+<div id="zonesContainer">
+  <div data-ng-repeat="zone in zones | filter:{isSelected:true}">
+    <div class="zone-boundary clearfix">
+      <h4  class="zone-label"><i class='fa fa-retweet'></i> {{zone.name}}</h4>
+      <div cloudweb-resource-filter></div>
+      <div class="row">
+        <div ui-view></div>
+      </div>
+    </div>
+  </div>
+  </div>

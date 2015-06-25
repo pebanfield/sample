@@ -1,0 +1,37 @@
+<form class="popover-form" style="width:380px">
+    <div class="row-fluid">
+        <label class="span4">Organization</label>
+        <span class="span8">TOCIS</span>
+    </div>
+    <div class="row-fluid">
+        <label class="span4">Email</label>
+        <span class="span8"><a href="mailto:{{mon.email}}">{{mon.email}}</a></span>
+    </div>
+    <div class="row-fluid">
+        <label class="span4">Action on Event</label>
+        <span class="span8">{{mon.action}}</span>
+    </div>
+    <div class="row-fluid">
+        <label class="span4">Template</label>
+        <span class="span8">{{mon.template}}</span>
+    </div>
+    <div data-ng-show="mon.template != 'ping'">
+        <div class="row-fluid">
+            <label class="span4">Url Path</label>
+            <span class="span8">{{mon.data.uri}}</span>
+        </div>
+        <div class="row-fluid">
+            <label class="span4">Port</label>
+            <span class="span8">{{mon.data.port}}</span>
+        </div>
+        <div class="row-fluid">
+            <label class="span4">Test Interval</label>
+            <span class="span8">{{mon.data.cycletime}}</span>
+        </div>
+        <div class="row-fluid">
+            <label class="span4">Timeout</label>
+            <span class="span8">{{mon.data.timeout}}</span>
+        </div>
+    </div>
+
+</form>

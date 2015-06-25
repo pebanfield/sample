@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Cirrus Authentication</title>
+
+<!--genhtml:css-->
+<link href="/styles/cloudweb.css" rel="stylesheet" media="screen" />
+<!--endgenhtml-->
+
+<!--genhtml:js-->
+<script src="vendor/components/jquery/dist/jquery.js"></script>
+<script src="vendor/components/jquery.cookie/jquery.cookie.js"></script>
+<script src="vendor/components/angular/angular.js"></script>
+<script src="vendor/components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="vendor/components/angular-ui-utils/modules/utils.js"></script>
+<script src="vendor/components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="vendor/components/lodash/dist/lodash.compat.js"></script>
+<script src="vendor/components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="vendor/components/angular-animate/angular-animate.js"></script>
+<script src="vendor/components/angular-strap/dist/angular-strap.min.js"></script>
+<script src="vendor/components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+<script src="vendor/components/select2/select2.js"></script>
+<script src="vendor/components/angular-ui-select2/src/select2.js"></script>
+<script src="components/loading-directive/loading-directive.js"></script>
+<script src="modules/auth/services.js"></script>
+<script src="modules/auth/appdata.js"></script>
+<script src="modules/auth/auth.js"></script>
+<script src="modules/auth/login.js"></script>
+<!--endgenhtml-->
+
+</head>
+<body id="auth">
+<div class="container">
+      <form name="loginForm"
+        class="login-form"
+        novalidate
+        method="post"
+        ng-app="auth"
+        ng-controller="LoginCtrl"
+        rc-attempt
+        rc-submit="login()">
+        <h2>Cirrus Login</h2>
+        <div class="form-group" ng-show="!requesting"
+          ng-class="{error: loginForm.username.$invalid && (loginForm.username.$dirty || rc.loginForm.attempted)}">
+          <input name="username" type="text" placeholder="Username" required ng-model="session.username" rc-verify-set class="form-control"/>
+          <span class="help-in" ng-show="loginForm.username.$error.required">Required</span>
+        </div>
+
+        <div class="form-group"
+             ng-show="!requesting"
+             ng-class="{error: loginForm.password.$invalid && (loginForm.password.$dirty || rc.loginForm.attempted)}">
+            <input name="password" type="password" placeholder="Password" required ng-model="session.password" rc-verify-set class="form-control"/>
+            <span class="help-inline" ng-show="loginForm.password.$error.required">Required</span>
+        </div>
+
+        <div class="form-group" data-ng-show="requesting">
+            <div csf-loader ></div>
+        </div>
+        <div class="form-group alert alert-error text-center" data-ng-show="status == 401">
+          <i class="icon-ban-circle"></i>
+          401 - Not authorized
+        </div>
+        <button data-ng-disabled="requesting" data-ng-click="login()" class="btn btn-default btn-block" value="Login" title="Login">
+          Login
+        </button>
+      </form>
+      <div class='alert alert-warning'>
+        If you are seeing this message you may need to 
+        <a href="https://devcentraldocs.disney.com/pages/viewpage.action?pageId=13141795" target="_blank">enable third party cookies.</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<div ng-repeat="resource in zone.resources | filter:searchText">
+  <div class="col-sm-4 col-md-3 col-lg-2">
+    <div ng-include="'modules/compute/views/resources/templates/instancelarge.html'"> </div>
+    <!--<div ng-if="resource.type == 'instance'"-->
+      <!--dtss-instance-large-->
+      <!--data-resource="true"-->
+      <!--class="dtss-card-large dtss-instance-large "-->
+      <!--data-ng-config="{{resource.data}}"></div>-->
+    <!--<div ng-if="resource.type == 'snapshot'"-->
+      <!--dtss-snapshot-large-->
+      <!--data-resource="true"-->
+      <!--class="dtss-card-large dtss-snapshot-large "-->
+      <!--data-ng-config="{{resource.data}}"></div>-->
+    <!--<div ng-if="resource.type == 'volume'"-->
+      <!--dtss-volume-large-->
+      <!--data-resource="true"-->
+      <!--class="dtss-card-large dtss-volume-large "-->
+      <!--data-ng-config="{{resource.data}}"></div>-->
+    <!--<div ng-if="resource.type == 'secgroup'"-->
+      <!--dtss-secgroup-large-->
+      <!--data-resource="true"-->
+      <!--class="dtss-card-large dtss-secgroup-large "-->
+      <!--data-ng-config="{{resource.data}}"></div>-->
+  </div>
+</div>

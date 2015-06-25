@@ -1,0 +1,5 @@
+<div class="alert-container">
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert()">&nbsp;{{alert.msg}}&nbsp;</alert>
+</div>
+<div class="database-ui-view" ui-view></div>
+<div class="spinner"><span class="{{spinner}}"></span></div>

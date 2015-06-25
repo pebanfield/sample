@@ -1,0 +1,72 @@
+<div style="position: relative">
+    <div class=loading-progress ng-show="isMetricsLoading && !isLoading">
+        <div class=loading-message>
+            <h4>VM Metrics Graphs Loading...</h4>
+            <div csf-loader></div>
+        </div>
+    </div>
+</div>
+    <h6>View Past</h6>
+    <div class="btn-group" bs-buttons-radio ng-show="!isMetricsLoading">
+      <button class="btn btn-default" data-ng-model="range.hour" data-ng-click="graphRange('hour')">Hour</button>
+      <button class="btn btn-default" data-ng-model="range.day" data-ng-click="graphRange('day')">Day</button>
+      <button class="btn btn-default" data-ng-model="range.week" data-ng-click="graphRange('week')">Week</button>
+      <button class="btn btn-default" data-ng-model="range.custom" data-ng-click="graphRange('customrange')">Custom</button>
+    </div>
+<div ng-show="!isMetricsLoading && customRange">
+    <div class="control-group input-append">
+        <input type="text"
+               datepicker-popup="MM/dd/yyyy"
+               ng-model="fromDate"
+               max="toDate"
+               min="instance.createdAt"
+               is-open="fromDateOpened"
+               show-weeks="false"
+               class="input-small"
+               datepicker-options="dateOptions"
+               id="fromDate"
+                />
+          <button class="btn btn-sm btn-default" ng-click="openPicker('from')">
+            <i class="fa fa-calendar"></i>
+          </button>
+    </div>
+    <div class="control-group input-append">
+        <input type="text" ng-model="fromTime" bs-timepicker class="input-mini" id="fromTime">
+        <button type="button" class="btn btn-sm btn-default" data-toggle="timepicker">
+          <i class="fa fa-clock-o"></i>
+        </button>
+    </div>
+    <div class="control-group input-append">
+        <input type="text"
+           datepicker-popup="MM/dd/yyyy"
+           ng-model="toDate"
+           max="today"
+           min="fromDate"
+           is-open="toDateOpened"
+           show-weeks="false"
+           class="input-small"
+           datepicker-options="dateOptions"
+           id="toDate"
+           />
+        <button class="btn btn-sm btn-default" ng-click="openPicker('to')">
+          <i class="fa fa-calendar"></i>
+        </button>
+    </div>
+    <div class="control-group input-append">
+        <input type="text" ng-model="toTime" bs-timepicker class="input-mini">
+        <button type="button" class="btn btn-sm btn-default" data-toggle="timepicker">
+          <i class="fa fa-clock-o"></i>
+        </button>
+    </div>
+    <div class="control-group">
+    <button class="btn" data-ng-click="graphRange('custom')">Get Metrics</button>
+    </div>
+</div>
+<div>
+  <div data-ng-repeat="graph in graphs" class="span6 metrics-graph"  ng-show="!isMetricsLoading">
+
+        <h4>{{graph.title}}</h4>
+        <img ng-src="{{graph.imgSrc}}"/>
+
+      </div>
+</div>

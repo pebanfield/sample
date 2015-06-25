@@ -1,0 +1,35 @@
+<div class=loading-progress ng-show="!instance.name && activePage === 'summary' ">
+    <div class=loading-message>
+        <h4>VM Details Loading...</h4>
+        <div csf-loader ></div>
+    </div>
+</div>
+
+<h3 ng-show="instance.name">
+    <a href="/#/compute/zones"><i class="fa fa-caret-left"></i></a>&nbsp;<i class="fa fa-desktop"></i>
+    <span>{{instance.name}}</span>
+    <a
+        class="fa fa-edit hide"
+        href=javascript:void(0)
+        data-ng-click="editName()"
+        >
+    </a>
+</h3>
+<a class="btn btn-primary-white pull-right white"  href="/#/compute/zones">
+    <i class=fa fa-list-alt></i>
+    Back
+</a>
+
+<div>
+    <tabset>
+        <tab ng-repeat="tab in tabs"
+             heading="{{tab.title}}"
+             ng-click="renderTabView()"
+             active="tab.active"
+             disabled="tab.disabled">
+            {{tab.content}}
+        </tab>
+    </tabset>
+</div>
+
+<div ui-view></div>

@@ -1,0 +1,178 @@
+<div class="loading-forms" ng-show="false">
+    <div class="loading-message">
+        <h4>Loading...</h4>
+        <div csf-loader ></div>
+    </div>
+</div>
+<fieldset ng-show="true">
+    <legend>Required Values</legend>
+    <div class="row-fluid">
+        <ul class="span7">
+            <li>
+              <span class="row-fluid"
+                    ng-focus="setActiveInput('label')"
+                    ng-mouseover="showHideText('label')">
+                <label class="span2">Label : </label>
+                <input class="span9" type="text"
+                       ng-model="instance.name"
+                       focus="{{labelIsActive}}"
+                       data-ng-change="validate()"
+                       placeholder="Enter instance label here"/>
+                 <i class="fa fa-asterisk"
+                    data-bs-tooltip="'A VM label is required'"
+                    data-placement="right"
+                    data-ng-show="!labelIsValid"></i><p data-ng-show="!labelIsValid"><span class="text-error">Label must not contain special characters.</span></p>
+              </span>
+            </li>
+            <li>
+                <div class="row-fluid"
+                     ng-focus="setActiveInput('platform')"
+                     ng-mouseover="showHideText('platform')">
+                  <label class="span2">Image : </label>
+                  <span class="span9">
+                    <select
+                        ng-model="instance.imageId"
+                        ng-options="image.id as image.os.description for image in images"
+                        ng-selected="instance.image.id"
+                        focus="{{imageIsActive}}"
+                        data-ng-change="validate()"
+                        >
+                    <option value="">[select platform]</option>
+                    </select>
+                  <i class="fa fa-asterisk"
+                     data-bs-tooltip="'An image selection is required'"
+                     data-placement="right"
+                     data-ng-show="!imageIsValid"></i>
+                  </span>
+                </div>
+            </li>
+            <li>
+                <div class="row-fluid"
+                     ng-focus="setActiveInput('zone')"
+                     ng-mouseover="showHideText('zone')">
+                  <label class="span2">Zone : </label>
+                  <span class="span9">
+                    <select
+                        ng-model="instance.zoneId"
+                        focus="{{zoneIsActive}}"
+                        ng-options="zone.id as zone.name for zone in zones"
+                        ng-selected="instance.zone.id"
+                        data-ng-change="validate()"
+                        required>
+                        <option value="">[select zone]</option>
+                    </select>
+                      <i class="fa fa-asterisk"
+                         data-bs-tooltip="'A zone is required'"
+                         data-placement="right"
+                         data-ng-show="!zoneIsValid"></i>
+                  </span>
+                </div>
+            </li>
+            <li>
+                <div class="row-fluid"
+                     ng-focus="setActiveInput('size')"
+                     ng-mouseover="showHideText('size')">
+                    <label class="span2">Size : </label>
+                  <span class="span9">
+                    <select
+                            ng-model="instance.flavorId"
+                            focus="{{sizeIsActive}}"
+                            ng-options="flavor.id as flavor.longLabel for flavor in flavors"
+                            ng-selected="instance.flavor.id"
+                            data-ng-change="validate()"
+                            >
+                        <option value="">[select size]</option>
+                    </select>
+                      <i class="fa fa-asterisk"
+                         data-bs-tooltip="'A size selection is required'"
+                         data-placement="right"
+                         data-ng-show="!sizeIsValid"></i>
+                  </span>
+                </div>
+            </li>
+        </ul>
+        <div class="span4" ng-show="showLabelText">
+            <h4>Enter a label for your instance.</h4>
+            <ul class="provision-form-list">
+              <li>Your label will allow you to sort and search for your VM instance.</li>
+              <li>It does not have to be unique.</li>
+              <li>This label is not the OS "name" of the VM instance.</li>
+            </ul>
+        </div>
+        <div class="span4" ng-show="showPlatformText">
+            <h4>Select the platform (image) to use for this instance.</h4>
+            <ul class="provision-form-list">
+                <li>Windows and Linux based images are available.</li>
+                <li>Image patches, if available, are managed separately in the instance patches tab.</li>
+            </ul>
+        </div>
+        <div class="span4" ng-show="showZoneText">
+           <h4>Network Zone (formerly tenants)</h4>
+            <ul class="provision-form-list">
+                <li>New VMs are created within a network access zone.</li>
+                <li>You cannot currently change zones after creating a VM.</li>
+                <li>Learn how to join, create and manage tenants and more on <a href=https://devcentraldocs.corp.dig.com/display/IAAS/Tenant+Management target=_blank>Dev Central</a>.</li>
+            </ul>
+        </div>
+        <div class="span4" ng-show="showSizeText">
+            <h4>VM Size Selection</h4>
+            <ul class="provision-form-list">
+                <li>A VM size is determined by the number of CPUs and GB of RAM.</li>
+                <li>Each VM size is billed at a different daily rate.</li>
+                <li>VM snapshoting is currently a manual process.</li>
+            </ul>
+        </div>
+        <div class="span4" ng-show="showOptionsText">
+            <h4>Ready. Set. Go!</h4>
+            <ul class="provision-form-list">
+                <li>You've supplied all required data to create a VM.</li>
+                <li>Select 'Next' to create your VM or 'Options' to configure optional settings.</li>
+            </ul>
+        </div>
+    </div>
+    <!-- TODO - add back with improved design
+    <div class="row-fluid">
+        <div class="span10">
+            <div class="instance-sizes">
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Micro</span><br/>
+                   <input type="radio" name="group1" ng-model="size" value="micro">
+                </div>
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Mini</span><br/>
+                    <input type="radio" name="group1" ng-model="size" value="mini">
+                </div>
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Mini+</span><br/>
+                    <input type="radio" name="group1" ng-model="size" value="mini+">
+                </div>
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Small</span><br/>
+                    <input type="radio" name="group1" ng-model="size" value="small">
+                </div>
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Small+</span><br/>
+                    <input type="radio" name="group1" ng-model="size" value="small+">
+                </div>
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Medium</span><br/>
+                    <input type="radio" name="group1" ng-model="size" value="medium">
+                </div>
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Medium+</span><br/>
+                    <input type="radio" name="group1" ng-model="size" value="medium+">
+                </div>
+                <div class="centered padded">
+                    <span><i class="fa fa-desktop"></i><br/>Large</span><br/>
+                    <input type="radio" name="group1" ng-model="size" value="large">
+                </div>
+
+                <div class="stretch"></div>
+            </div>
+        </div>
+        <div class="span2"></div>
+    </div> -->
+    <span class="span11 text-error align-right" data-ng-show="!$parent.isValid">
+        <i class="fa fa-asterisk" data-placement="right"></i> &nbsp; All fields marked as required must be complete.</span>
+
+</fieldset>

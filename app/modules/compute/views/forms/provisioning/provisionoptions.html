@@ -1,0 +1,144 @@
+<div class="loading-forms" ng-show="!instance.image">
+    <div class="loading-message">
+        <h4>Setting Instance Options...</h4>
+        <div csf-loader></div>
+    </div>
+</div>
+<fieldset ng-show="instance.image">
+    <legend>Optional Settings</legend>
+    <div class="row-fluid">
+      <ul class="span6">
+          <li data-ng-show="!$parent.selectedImage.osSupportServicesAvailable">
+              <span class="row-fluid"
+                    ng-mouseover="showHideText('OSsupportSpecial')">
+              <label class="span5">OS Support</label>
+              <input type="checkbox" name="OSsupport" disabled/><span>&nbsp; This image type is not currently supported.</span><br/>
+                  </span>
+          </li>
+          <li data-ng-show="$parent.selectedImage.osSupportServicesAvailable">
+              <span class="row-fluid"
+                    ng-mouseover="showHideText('OSsupport')">
+
+                <label class="span5" ng-show="!$parent.supported">OS Support</label>
+                <input type="checkbox" ng-show="!$parent.supported" name="OSsupport" data-ng-model="$parent.supported" ngTrueValue="true" ngFalseValue="false"/><span ng-show="!$parent.supported">&nbsp; I need OS Support services ($1.81/day)</span><br ng-show="!$parent.supported"/>
+                  <div class="csf-ossupport-container" ng-show="$parent.supported">
+                <label class="span5 os-support-title">OS Support</label>
+                <input type="checkbox" name="OSsupport" data-ng-model="$parent.supported" ngTrueValue="true" ngFalseValue="false"/><span class="os-support-text">&nbsp; Yes please add OS support.</span><br/>
+
+                    <br/><label class="span4">Hub ID :</label>
+                <input type="text" class="span8" name="supportId" data-ng-model="$parent.username" disabled/><br/>
+
+                <label class="span4">email :</label>
+                <input type="text" class="span8" focus="{{emailIsActive}}" data-ng-change="validate()" data-ng-model="instance.osSupportServiceContactEmail"/><br/>
+                      <i class="fa fa-asterisk"
+                         data-bs-tooltip="'Please enter a valid email address.'"
+                         data-placement="right"
+                         data-ng-show="!supportEmailIsValid"></i><span class="text-error" data-ng-show="!supportEmailIsValid"> Please enter a valid email address.</span><br data-ng-show="!supportEmailIsValid"/>
+                <label class="span4">phone :</label>
+                   <input type="text" class="span8" focus="{{phoneIsActive}}" data-ng-change="validate()" data-ng-model="instance.osSupportServiceContactPhone"/><br/>
+                      <i class="fa fa-asterisk"
+                         data-bs-tooltip="'Please enter a valid phone number.'"
+                         data-placement="right"
+                         data-ng-show="!supportPhoneIsValid"></i><span class="text-error" data-ng-show="!supportPhoneIsValid"> Please enter a valid phone number.</span><br/>
+                </div>
+                  <br/>
+              </span>
+          </li>
+        <li ng-show="$parent.showDomain">
+          <span class="row-fluid"
+                ng-mouseover="showHideText('domain')">
+           <label class="span5">Admin Domain</label>
+            <select class="span4"
+                    data-ng-model="instance.admins.domain"
+                    data-ng-options="domain.name as domain.name for domain in currentDomains">
+                <option value="">[select domain]</option>
+            </select>
+          </span>
+        </li>
+        <li ng-show="$parent.showDomain">
+         <span class="row-fluid"
+              ng-mouseover="showHideText('account')">
+          <label class="span5">Admin Account</label>
+           <input class="span4"
+                type="text"
+                data-ng-model="instance.admins.username"
+                placeholder="Username">
+          </span>
+        </li>
+        <li>
+         <span class="row-fluid"
+              ng-mouseover="showHideText('initData')">
+          <label class="span5">
+            CloudInit Data
+          </label>
+          <textarea
+                class=span4 rows=4
+                ng-model="instance.cloudInitData"
+                placeholder="Enter CloudInit User Data..."
+                ></textarea>
+         </span>
+        </li>
+        <li data-ng-show="$parent.showAppStack">
+        <span class="row-fluid"
+              ng-mouseover="showHideText('appStack')">
+          <label class="span5">
+                Application Stack
+          </label>
+          <span class="span4">
+            <select
+                    data-ng-disabled="!instance.image.id"
+                    data-ng-model="instance.recipe"
+                    data-ng-options="recipe.name for recipe in currentRecipes">
+                <option value="">[select stack]</option>
+            </select>
+          </span>
+         </span>
+        </li>
+       </ul>
+        <div class="span6" ng-show="showOSsupportSpecial">
+            <h4>OS Support</h4>
+            <ul class="provision-form-list">
+                <li>OS Support Services is not currently available for this image type. </li>
+                <li><a href="https://devcentraldocs.disney.com/display/ODC/Support+Services" target="_blank">Learn more about the services offered and how billing works.</a></li>
+            </ul>
+        </div>
+        <div class="span6" ng-show="showOSsupport && $parent.selectedImage.osSupportServicesAvailable">
+            <h4>OS Support</h4>
+            <ul class="provision-form-list">
+                <li>OS Support Services is a billable service provided by Disney's Technology Operations Center (DTOC). </li>
+                <li>This instance will be subscribed to this support service.</li>
+                <li>The support service will end when this instance is terminated.</li>
+                <li>A valid email & phone number are required. DTOC will use this number to contact you for support requests.</li>
+                <li><a href="https://devcentraldocs.disney.com/display/public/ODC/Support+Services" target="_blank">Learn more about the services offered and how billing works.</a></li>
+            </ul>
+        </div>
+        <div class="span6" ng-show="showDomain">
+            <h4>Admin Domain</h4>
+            <ul class="provision-form-list">
+                <li>The networking domain used to access your VM instance, e.g., SWNA or MGMTPROD.</li>
+                <li>You must have access credentials for the domain to access your VM instance.</li>
+            </ul>
+        </div>
+        <div class="span6" ng-show="showAccount">
+            <h4>Admin Account</h4>
+            <ul class="provision-form-list">
+                <li>The admin account is used to SSH into your VM instance.</li>
+                <li>All new VM instances are created with a 'cloud-user' account by default.</li>
+            </ul>
+        </div>
+        <div class="span6" ng-show="showInitData">
+            <h4>Cloud Init Data</h4>
+            <ul class="provision-form-list">
+                <li>This is an advanced user feature allowing for additional arguments to be passed during VM creation.</li>
+                <li>This is currently the only option available for the Windows OS.</li>
+            </ul>
+        </div>
+        <div class="span6" ng-show="showAppStack">
+            <h4>Application Stack</h4>
+            <ul class="provision-form-list">
+                <li>This option installs additional software on your VM instance.</li>
+                <li>If you aren't sure you want this, you can install this software manually after your create your VM instance.</li>
+            </ul>
+        </div>
+    </div>
+</fieldset>

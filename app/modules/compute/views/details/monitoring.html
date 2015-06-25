@@ -1,0 +1,178 @@
+<div style="position: relative">
+    <div class=loading-progress ng-show="isLoading">
+        <div class=loading-message>
+            <h4>Monitoring Data Loading...</h4>
+            <div csf-loader ></div>
+        </div>
+    </div>
+</div>
+<div ng-show="!isLoading">
+    <section id="monitoring" >
+
+        <h3>Monitors
+            <span data-ng-click="AddMonitorInvoked()">
+                <button
+                    class="btn btn-primary pull-right"
+                    data-bs-modal="'/views/app/modules/compute/views/modals/addupdatemonitor.html'"
+                    data-ng-controller="AddMonitor"
+                    data-ng-disabled="!monitoringEnabled"
+                    style="position:relative;top:10px">
+                    <i class="fa fa-bullseye"></i>
+                    Create Monitor
+                </button>
+            </span>
+        </h3>
+        <p ng-show="!monitoringEnabled" class="alert-error">There is a problem with the monitoring configuration for this instance. Please raise a help ticket.</p>
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Template</th>
+                <th>Action</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="mon in monitors">
+                <td>
+
+                    <i class="fa fa-bullseye text-info" data-ng-show="showMonitorStatus(mon.status,'ready')"
+                       tooltip="'Monitor Status'"></i>
+
+                    <i class="fa fa-bullseye text-success" data-ng-show="showMonitorStatus(mon.status,'active_no_events')"
+                       tooltip="'Monitor Status'"></i>
+
+                    <i class="fa fa-bullseye text-error" data-ng-show="showMonitorStatus(mon.status,'active_events')"
+                       tooltip="'Monitor Status'"></i>
+
+                <td> <a data-title="{{mon.name}} ({{mon.state}})"
+                       href="javascript:void(0)"
+                       data-bs-popover="'/views/app/modules/compute/views/popovers/monitordetail.html'"
+                       data-ng-controller="MonitorDetail"
+                       data-unique="1"
+                       tooltip-placement="right">{{mon.name}}</a>
+                </td>
+                <td>{{mon.template}}</td>
+                <td>{{mon.action}}</td>
+                <td>
+                    <a class="btn btn-small"
+                       tooltip="'Edit this monitor'"
+                       ng-disabled="requestPending"
+                       data-bs-modal="'/views/app/modules/compute/views/modals/addupdatemonitor.html'"
+                       data-ng-controller="UpdateMonitor">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="javascript:void(0)"
+                       ng-show="showEnabled(mon.state)"
+                       ng-disabled="requestPending"
+                       class="btn btn-small"
+                       tooltip="'Disable this Monitor'"
+                       data-ng-click="toggleMonitorState(mon)">
+                        <i class="fa fa-ban-circle"></i>
+                    </a>
+                    <a href="javascript:void(0)"
+                       ng-show="!showEnabled(mon.state)"
+                       ng-disabled="requestPending"
+                       class="btn btn-small"
+                       tooltip="'Enable this Monitor'"
+                       data-ng-click="toggleMonitorState(mon)">
+                        <i class="fa fa-play"></i>
+                    </a>
+                    <a href="javascript:void(0)"
+                       ng-disabled="requestPending"
+                       class="btn btn-small btn-danger"
+                       tooltip="'Delete this monitor'"
+                       data-ng-click="deleteConfirm(mon)">
+                        <i class="fa fa-trash"></i>
+                    </a>
+
+                </td>
+
+            </tr>
+            <tr data-ng-show="monitors.length == 0">
+                <td colspan="5">
+                    <em>No monitors found</em>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    </div>
+<div  ng-show="!isLoading">
+  <section >
+
+    <h3>Events</h3>
+    <table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Severity</th>
+            <th>Name</th>
+            <th>First Time</th>
+            <th>Last Time</th>
+            <th>Count</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="event in events">
+            <td><i class="fa fa-flag {{event.severityClassName}}"
+                   tooltip="'Error - alert by email'"></i> {{event.severityLabel}}</td>
+            <td>
+                {{event.eventKey}}
+            </td>
+            <td>{{event.firstTime | date:'medium'}}</td>
+            <td>{{event.lastTime | date:'medium'}}</td>
+            <td>{{event.count}}</td>
+            <td>{{event.message}}</td>
+        </tr>
+        <tr data-ng-show="events.length == 0">
+            <td colspan="6">
+                <em>No events found</em>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+  </section>
+</div>
+</div>
+
+
+<div ng-show="!isLoading">
+    <section>
+
+        <h3>Service Desk Incidents</h3>
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th>
+                    &nbsp;&nbsp;&nbsp;
+                    Impact
+                </th>
+                <th>Ticket</th>
+                <th>Updated</th>
+                <th>Group</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="incident in incidents">
+                <td>
+                    <i class="fa fa-flag text-error"
+                       tooltip="'Error - alert by email'"
+                            ></i>
+                    myHttpGet
+                </td>
+                <td>http</td>
+                <td>2013-10-21 16:07:05</td>
+                <td>2013-10-23 09:53:04</td>
+                <td>2510</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <em>No recent service desk incidents</em></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

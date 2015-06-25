@@ -1,0 +1,355 @@
+<div class="modal-header">
+    <button type="button" class="close" data-ng-click="closeModal()" aria-hidden="true">×</button>
+    <h3>New Virtual Machine</h3>
+</div>
+<div class="modal-body">
+    <form name="provisionForm" data-ng-hide="isConfirming">
+    <div class="row-fluid">
+        <label class="span4 req">
+            Zone
+            <a href=javascript:void(0)
+                onmousedown="this.focus()"
+                data-placement="bottom"
+                class="fa fa-info-sign"
+                data-tooltip-trigger="focus"
+                tooltip-placement=bottom
+                tooltip-html-unsafe="To find out more about zones (formerly tenants), refer to <a href=https://devcentraldocs.corp.dig.com/display/IAAS/Tenant+Management target=_blank>this document</a>. It provides an overview; and includes information on how to join, create and manage tenants."></a>
+        </label>
+        <span class="span8">
+            <select
+                ng-model="instance.zone"
+                ng-options="zone.name for zone in zones"
+                >
+                <option value="">[select zone]</option>
+            </select>
+
+            <i class="fa fa-asterisk" data-bs-tooltip="'Zone is required'" data-placement="right"></i>
+        </span>
+    </div>
+    <div class="row-fluid">
+        <label class="span4 req">
+            VM Label
+            <a href=javascript:void(0)
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign"
+               tooltip-trigger=focus
+               tooltip-placement=bottom
+               tooltip-html-unsafe='Enter a label for your instance. It does not have to be unique. Your label will allow you to sort and search for your VM instance. We suggest that you make it descriptive if possible. This label is not the "name" of the VM instance.'></a>
+        </label>
+        <div class="span8">
+            <input type="text" ng-model="instance.name" placeholder="Label" data-ng-disabled="!instance.zone.id"/>
+            <i class="fa fa-asterisk" data-bs-tooltip="'Label is required'" data-placement="right"></i>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <label class="span4 req">
+            Platform (image)
+            <a href="javascript:void(0)"
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign"
+               data-tooltip-trigger="focus"
+               data-tooltip-placement="bottom"
+               data-tooltip-html-unsafe='Select the platform (image) to use for this instance.'></a>
+        </label>
+        <span class="span8">
+            <select
+                ng-model="instance.image"
+                ng-options="image as image.os.description for image in images"
+                ng-disabled="instance.name == ''"
+                data-ng-change="imageSelected()"
+                >
+                <option value="">[select platform]</option>
+            </select>
+            <i class="fa fa-asterisk" data-bs-tooltip="'Platform is required'" data-placement="left"></i>
+        </span>
+    </div>
+    <div class="row-fluid" data-ng-show="!instance.image.os.distribution || instance.image.os.distribution != 'Microsoft/Windows'">
+        <label class="span4">
+            Admin Account
+            <a href=javascript:void(0)
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign"
+               data-tooltip-trigger='focus'
+               data-tooltip-placement=bottom
+               data-tooltip-html-unsafe='(Optional) Enter a domain account or group that should have login access (e.g. swna\username or mgmtprod\groupname).<br/>
+Note: This feature is not yet available for Windows server images. '></a>
+        </label>
+        <div class="span8">
+            <select
+                data-ng-disabled="!instance.image.id"
+                data-ng-model="instance.admins.domain"
+                data-ng-options="domain for domain in domains">
+                <option value="">[select domain]</option>
+            </select>
+            <input
+                type="text"
+                data-ng-model="instance.admins.username"
+                placeholder="Username"
+                class="span6">
+        </div>
+    </div>
+    <div class="row-fluid" style="margin-bottom:4px">
+        <label class="span4">
+            CloudInit Data
+            <a href=javascript:void(0)
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign"
+               tooltip-trigger=focus
+               tooltip-placement=bottom
+               tooltip-html-unsafe='Enter user data input to initialize this VM instance (optional)'></a>
+        </label>
+        <div class="span8">
+            <button
+                class="btn"
+                data-ng-click="instance.useCloudInitData = true"
+                ng-show="!instance.useCloudInitData"
+                data-ng-disabled="!instance.image.id"
+                >
+                Enter Data (optional)...
+            </button>
+            <textarea
+                class=span11 rows=4
+                ng-show="instance.useCloudInitData"
+                ng-model="instance.cloudInitData"
+                placeholder="Enter CloudInit User Data..."
+            ></textarea>
+        </div>
+    </div>
+
+    <div class="row-fluid" data-ng-show="!instance.image.os.distribution || instance.image.os.distribution != 'Microsoft/Windows'">
+        <label class="span4">
+            Application Stack
+            <a href=javascript:void(0)
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign"
+               tooltip-trigger=focus
+               tooltip-placement=bottom
+               tooltip-html-unsafe='Select the provisioning template to use for this instance.'></a>
+        </label>
+        <span class="span8">
+            <select
+                data-ng-disabled="!instance.image.id"
+                data-ng-model="instance.recipe"
+                data-ng-options="recipe for recipe in recipes">
+                <option value="">[select stack]</option>
+            </select>
+
+        </span>
+    </div>
+    <div class="row-fluid" ng-hide="!instance.image.id">
+        <label class="span4">
+            Instance Size
+            <a href=javascript:void(0)
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign"
+               tooltip-trigger=focus
+               tooltip-placement=bottom
+               tooltip-html-unsafe='Select a size by clicking a green square.'></a>
+        </label>
+        <span class="span8">
+            <table class="flavors pull-right">
+                <colgroup>
+                    <col width=10%>
+                    <col width=10%>
+                    <col width=16%>
+                    <col width=16%>
+                    <col width=16%>
+                    <col width=16%>
+                    <col width=16%>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th colspan="2">&nbsp;</th>
+                        <th colspan="5">RAM (GB)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                    <td class="h-lbl">2</td>
+                    <td class="h-lbl">4</td>
+                    <td class="h-lbl">8</td>
+                    <td class="h-lbl">16</td>
+                    <td class="h-lbl">24</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">
+                        <span class="vertical-text">VCPUs</span>
+                    </td>
+                    <td class=lbl>1</td>
+                    <td class="available">
+                        <div class="flavor"
+                             tooltip-placement=left
+                             tooltip-html-unsafe="{{getFlavorPop(0)}}"
+                             ng-click="setFlavor(0)">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 0"></i>
+                        </div>
+                    </td>
+                    <td class="available">
+                        <div
+                            ng-click="setFlavor(1)"
+                            class="flavor"
+                            tooltip-placement=left
+                            tooltip-html-unsafe="{{getFlavorPop(1)}}">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 1"></i>
+                        </div>
+                    </td>
+                    <td class="available">
+                        <div
+                            ng-click="setFlavor(3)"
+                            class="flavor"
+                            tooltip-placement=left
+                            tooltip-html-unsafe="{{getFlavorPop(3)}}">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 3"></i>
+                        </div>
+                    </td>
+                    <td class=unavailable>&nbsp;</td>
+                    <td class=unavailable>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class=lbl>2</td>
+                    <td class=unavailable>&nbsp;</td>
+                    <td class="available">
+                        <div
+                            ng-click="setFlavor(2)"
+                            class="flavor"
+                            tooltip-placement=left
+                            tooltip-html-unsafe="{{getFlavorPop(2)}}">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 2"></i>
+                        </div>
+                    </td>
+                    <td class="available">
+                        <div
+                            ng-click="setFlavor(4)"
+                            class="flavor"
+                            tooltip-placement=left
+                            tooltip-html-unsafe="{{getFlavorPop(4)}}">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 4"></i>
+                        </div>
+                    </td>
+                    <td class="available">
+                        <div
+                            ng-click="setFlavor(5)"
+                            class="flavor"
+                            tooltip-placement=left
+                            tooltip-html-unsafe="{{getFlavorPop(5)}}">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 5"></i>
+                        </div>
+                    </td>
+                    <td class=unavailable>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class=lbl>4</td>
+                    <td class=unavailable>&nbsp;</td>
+                    <td class=unavailable>&nbsp;</td>
+                    <td class=unavailable>&nbsp;</td>
+                    <td class="available">
+                        <div
+                            ng-click="setFlavor(6);"
+                            class="flavor"
+                            tooltip-placement=left
+                            tooltip-html-unsafe="{{getFlavorPop(6)}}">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 6"></i>
+                        </div>
+                    </td>
+                    <td class="available">
+                        <div
+                            ng-click="setFlavor(7);"
+                            class="flavor"
+                            tooltip-placement=left
+                            tooltip-html-unsafe="{{getFlavorPop(7)}}">
+                            <i class=fa fa-ok-sign ng-show="flavorIndex == 7"></i>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <em ng-show="flavorIndex == null">Select Size
+                <i class="fa fa-arrow-right"></i>
+            </em>
+            <div ng-show="flavorIndex != null">
+                <h4 style="margin-top: 0">{{instance.flavor.label}} (${{instance.flavor.dailyPrice}}/day)</h4>
+                <ul>
+                    <li><strong>CPUs:</strong> {{instance.flavor.vcpus}}</li>
+                    <li><strong>RAM:</strong> {{instance.flavor.ram}} KB</li>
+                    <li><strong>Disk:</strong> 50 GB</li>
+                </ul>
+            </div>
+
+        </span>
+    </div>
+    </form>
+    <div data-ng-show="isConfirming && !isProvisioning">
+        <p>Create a virtual machine with the following settings?</p>
+        <ul>
+            <li><strong>Zone</strong>: {{instance.zone.name}}</li>
+            <li><strong>Label</strong>: {{instance.name}}</li>
+            <li><strong>Platform</strong>: {{instance.image.os.distribution}}</li>
+            <li data-ng-show="!instance.image.os.distribution || instance.image.os.distribution != 'Microsoft/Windows'"><strong>Admin Account</strong>: {{instance.admins.domain}}\{{instance.admins.username}}</li>
+            <li data-ng-show="instance.cloudInitData"><strong>Cloud Init Data</strong>: {{instance.cloudInitData}}</li>
+            <li data-ng-show="!instance.image.os.distribution || instance.image.os.distribution != 'Microsoft/Windows'"><strong>Application Stack</strong>: {{instance.recipe}}</li>
+            <li><strong>Size</strong>: {{instance.flavor.name}}</li>
+        </ul>
+    </div>
+    <div data-ng-show="isProvisioning && !isProvisioned">
+        <h5>Your virtual machine is being created...</h5>
+
+        <div class="loading-progress">
+            <div csf-loader ></div>
+        </div>
+
+    </div>
+    <div data-ng-show="isProvisioned">
+        <h5>Your virtual machine is starting...</h5>
+        <p>Next steps</p>
+        <ul>
+            <li ng-click="closeModal()">
+                <a href="#/compute/zones/id/{{instanceId}}/summary">
+                    View Server Details
+                </a>
+            </li>
+            <li ng-click="closeModal()">
+                <a href="#/compute/zones/id/{{instanceId}}/log">
+                    View the Server Log
+                </a>
+            </li>
+            <li ng-click="closeModal()">
+                <a href="#/compute/zones/id/{{instanceId}}/vnc">
+                    Log into your server, set a password
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" ng-click="closeModal()" data-ng-show="!isProvisioning">
+        Cancel
+    </button>
+    <button type="button" class="btn" ng-click="closeModal()" data-ng-show="isProvisioning">
+        Close
+    </button>
+    <button
+        class="btn btn-primary"
+        ng-disabled="!instance.flavor.id"
+        data-ng-show="!isConfirming"
+        data-ng-click="confirmSettings()"
+        >
+        Submit
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary btn-small"
+        ng-click="provisionVM()"
+        data-ng-show="isConfirming && !isProvisioning"
+        >
+        <i class="fa fa-desktop"></i>
+        Create Virtual Machine Now
+    </button>
+
+</div>

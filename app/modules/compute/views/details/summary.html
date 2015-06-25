@@ -1,0 +1,17 @@
+
+<ul class="summary" ng-show="instance.zoneName">
+    <li><strong>Tenant Name:</strong> <span>{{instance.zoneName}}</span></li>
+    <li><strong>IP Address:</strong> <span>{{instance.ip}}</span></li>
+    <li><strong>Image Used to Create Server:</strong> <span>{{instance.platform}}</span></li>
+    <li><strong>Created:</strong> <span>{{instance.createdAt | date:'medium'}}</span></li>
+    <li><strong>Status:</strong> <span>{{instance.status}}</span></li>
+    <li><strong>Last status change:</strong> <span>{{instance.updatedAt | date:'medium'}}</span></li>
+    <li><strong>Managed:</strong> <span>No</span></li>
+    <li ng-show="$parent.showSupportStatus"><strong>Supported:</strong> <span>{{instance.osSupportServiceStatus}}</span><br/>
+        <ul>
+            <li><a href="{{supportemail}}">Submit a support request for this server</a></li>
+            <li><a href="https://devcentraldocs.disney.com/display/public/ODC/Support+Services" target="_blank">OS Support Services Documentation</a></li>
+        </ul>
+    </li>
+</ul>
+<div ui-view></div>

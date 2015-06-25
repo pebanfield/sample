@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>Delete Monitor</h3>
+</div>
+<div class="modal-body">
+    <h5>Are you sure you want to delete the <em>{{activeMon.name}} monitor?</em></h5>
+</div>
+<div class="modal-footer">
+    <div class="maas-test-status-loading" data-ng-show="requestPending">
+        <div csf-loader ></div>
+    </div>
+    <button class="btn btn-danger" ng-click="deleteMonitor()" data-ng-disabled="requestPending" ng-disabled="requestPending">
+        <i class="fa fa-trash"></i>
+        Delete Monitor
+    </button>
+</div>

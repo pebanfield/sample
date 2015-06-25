@@ -1,0 +1,571 @@
+body { 
+  padding-top: 60px;
+  background-color: white
+}
+
+.main{
+  margin-left: 60px;
+}
+
+.smp body { margin: 0px 0px; background-color: white; overflow-y:hidden;}
+
+ul.server-type-choice {
+    list-style: none;
+}
+td i.icon-ok-sign {
+    color: @btn-success-bg;
+}
+
+td i.cpu-ram {
+    width: 32px;
+    display: inline-block;
+    position:relative;
+    top:2px;
+}
+.size-header-part{
+    border-bottom:solid 3px @btn-success-bg;
+
+}
+.size-header-part.cpu{
+ border-bottom-color: @btn-info-bg;
+}
+td i.cpu-ram i {
+    height: 8px;
+    border-bottom: solid 1px darken(@btn-success-bg, 1%);
+    border-left: solid 1px darken(@btn-success-bg, 15%);
+    //background: @btn-success-bg;
+    display: block;
+    #gradient > .horizontal(@btn-success-bg,lighten(@btn-success-bg, 15%));
+}
+td i.cpu-ram i.cpu {
+    //background-color: @btn-info-bg;
+    #gradient > .horizontal(@btn-info-bg,lighten(@btn-info-bg, 15%));
+    //margin-bottom: -1px;
+    border-bottom: solid 1px darken(@btn-info-bg, 1%);
+    border-left: solid 1px darken(@btn-info-bg, 15%);
+}
+td i.cpu-ram i.cpu1 {width: 25%;}
+td i.cpu-ram i.cpu2 {width: 50%;}
+td i.cpu-ram i.cpu3 {width: 75%;}
+td i.cpu-ram i.cpu4 {width: 100%;}
+td i.cpu-ram i.ram2 {width: 8%;}
+td i.cpu-ram i.ram4 {width: 17%;}
+td i.cpu-ram i.ram8 {width: 33%;}
+td i.cpu-ram i.ram16 {width: 67%;}
+td i.cpu-ram i.ram24 {width: 100%;}
+
+/*popover themes*/
+.popover h3.popover-title {
+    font-weight: bold;
+}
+
+.popover-content form .form-actions {
+    margin: 0 -10px -30px -15px;
+    padding: 14px 15px 15px 15px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.server-status-lg i, .server-status-lg strong {
+    font-size: 18px;
+}
+.server-active {color: @state-success-text;}
+.server-restarting, .server-build{color: @state-warning-text;}
+.server-shutdown{ color: black;}
+.server-suspended{ color: @state-warning-text;}
+.server-error, .server-deleting{ color: @state-danger-text;}
+
+.modal-body label.span4, form.popover-form label.span4 {
+    text-align: right;
+    padding: 2px 8px 0 0;
+    font-weight: bold;
+}
+
+.form-body label.span3 {
+  text-align: right;
+  padding: 2px 8px 0 0;
+  font-weight: bold;
+}
+
+.form-body label.span4 {
+
+  padding: 2px 8px 0 0;
+  font-weight: bold;
+}
+
+.form-body label.size {
+  font-weight: bold;
+}
+
+form.popover-form .row-fluid,form.popover-form .row-fluid [class*="span"]{
+    min-height:20px;
+}
+form.popover-form .form-actions{text-align: right;padding-right:10px}
+a[class^="icon-"]:hover,
+a[class*=" icon-"]:hover{
+    text-decoration:none;
+}
+th i{
+    float:right;
+    margin:1px 4px 0 0;
+}
+.nav-tabs li{cursor: pointer;}
+
+div.loading-progress{
+    height:100%;
+    width: 100%;
+    position: absolute;
+    top:0;
+    left:0;
+    text-align: center;
+    z-index:10;
+}
+
+div.error-message-outer{
+  background-color:white;
+  height:100%;
+  width: 100%;
+  position: absolute;
+  top:0;
+  left:0;
+  text-align: center;
+  z-index:10;
+}
+
+div.error-message-inner{
+  width:300px;
+  height: 40px;
+  display:inline-block;
+  position:relative;
+  top:30%;
+}
+
+div.loading-message{
+  width:300px;
+  height: 40px;
+  display:inline-block;
+  position:relative;
+  top:30%;
+}
+
+div.loading-forms {
+  background-color: white;
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  top: 120px;
+  left: 0;
+  text-align: center;
+  z-index: 10;
+}
+
+table.flavors{
+    margin-left:-84px;
+    width:230px;
+}
+table.flavors th, table.flavors .vertical-text {
+    font-weight:bold;
+    font-size: 16px;
+
+}
+table.flavors .vertical-text{
+    display: inline-block;
+    position:relative;
+    left:22px;
+}
+
+table.flavors td.available{
+    background-color: @btn-success-bg;
+    cursor: pointer;
+    text-align: center;
+}
+table.flavors td.available:hover{
+    background-color:  #3A5D83;
+}
+table.flavors td.available div.flavor{
+
+    height: 26px;
+    width: 30px;
+
+}
+table.flavors td.available div.tooltip{
+    div.tooltip-inner{
+        position:relative;
+        left:4px;
+    }
+    width:220px;
+    h4{
+        margin:2px 0;
+        color:white;
+        text-align: left;
+    }
+    ul {
+        margin-top:0;
+        text-align:left;
+    }
+}
+table.flavors td.available i{
+    color: white;
+    top: 2px;
+    position: relative;
+}
+table.flavors td.unavailable{
+    background-color: #e7e7e7;
+}
+table.flavors .lbl{
+    #gradient > .horizontal(lighten(@btn-default-bg, 10%), @btn-default-bg);
+    color:#333;
+    border-right:solid 1px #777;
+    text-align: right;
+    padding:3px;
+    font-weight: bold;
+}
+table.flavors .h-lbl{
+    #gradient > .vertical(lighten(@btn-default-bg, 10%), @btn-default-bg);
+    color:#333;
+    border-bottom:solid 1px #777;
+    text-align:center;
+    font-weight: bold;
+}
+.vertical-text{
+
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+
+    /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+
+    /* Should be unset in IE9+ I think. */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+form i.icon-asterisk {
+    color:@btn-danger-bg;
+    cursor: default;
+    position:relative;
+    top:-2px;
+}
+
+ul.dropdown-menu.ng-valid-date li span.btn-group{
+    display:none;
+}
+
+.vm-header-row {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 0px;
+  width: 100%;
+  vertical-align: bottom;
+}
+
+.combo-right {
+  position: absolute;
+  display: inline;
+  float: right;
+}
+
+div.metrics-graph{
+    min-height:202px;
+}
+@media (min-width: 1200px) {
+    div.metrics-graph{
+        min-height: 228px;
+    }
+}
+@media (min-width: 768px) and (max-width: 979px) {
+    div.metrics-graph{
+        min-height: 175px;
+    }
+}
+@media (max-width: 767px) {
+    div.metrics-graph{
+        min-height: 1px;
+    }
+}
+
+//TODO - move to accordion.less and make derived no-border class
+//accordion overrides
+.accordion {
+  margin-bottom: 2px;
+}
+
+.accordion-group {
+  margin-bottom: 2px;
+  border: 0px solid #e5e5e5;
+  border-radius: @border-radius-base;
+}
+
+.accordion-inner {
+  padding: 9px 15px;
+  border-top: 0px solid #e5e5e5;
+}
+
+.vm-table-header {
+  display:inline
+}
+
+.click-box {
+  text-align: center;
+  vertical-align: bottom;
+  color: white;
+  font-face: arial;
+  font-size: 14px;
+  margin-top: 10px;
+  padding-top: 6px;
+  height: 24px;
+  width: 140px;
+}
+
+.orange {
+  background: #d68911;
+}
+
+.green {
+  background: #109914;
+}
+
+.purple {
+  background: #8541a8;
+}
+
+.learn-underline {
+  margin-bottom: 6px;
+  padding-left: 6px;
+  margin-top: -8px;
+  padding-top: 0px;
+}
+
+
+a.learn:link {color: white;}
+a.learn:visited {color: white;}
+a.learn:hover {color: white; text-decoration: underline}
+a.learn:focus {color: white;}
+a.learn:active {color: white;}
+
+.open-close {
+  text-decoration: none !important;
+  padding: 2px;
+  color: gray;
+}
+
+.header-bg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 0px;
+  margin: 0px;
+  z-index: 2;
+}
+
+.vm-list-select {
+  background: transparent;
+  text-align: center;
+  width: 150px;
+  height: 34px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  -webkit-appearance: none;
+  overflow: hidden;
+  background: url(/img/combo-down-arrow.ico) no-repeat 100%
+}
+
+.provision-form {
+  padding: 6px;
+  text-align: left;
+}
+
+.provision-form ul {
+  list-style-type:none
+}
+
+.provision-form-list li {
+  list-style-type: circle;
+  width: 250px
+}
+
+.provision-form fieldset {
+
+  border: 1px solid #ccc;
+  text-align: left;
+  min-width: 700px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+
+}
+
+.instance-sizes {
+
+  width: 600px;
+  margin-top:20px;
+  margin-left: 20px;
+  margin-right: auto;
+  text-align: justify;
+  -ms-text-justify: distribute-all-lines;
+  text-justify: distribute-all-lines;
+}
+
+
+.instance-sizes div {
+  vertical-align: top;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+
+.stretch {
+  width: 100%;
+  display: inline-block;
+  font-size: 0;
+  line-height: 0
+}
+
+.smp-header {
+  margin-left: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+.smp-container {
+  padding: 0px;
+  margin: 0px;
+}
+
+.standalone-container {
+}
+
+.page-container {margin-top: 50px}
+
+.white {color: @link-color;}
+
+.centered {text-align: center !important; vertical-align: middle !important}
+
+.padded {padding: 10px}
+
+.align-right {text-align: right;}
+
+.border {border: 1px dashed @state-warning-bg;}
+
+.emphasis {font-weight: bold}
+
+.instance-settings {
+
+  position: relative;
+  top: -24px;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.instance-settings h4 {
+  font-weight:normal;
+  font-size: small;
+  line-height:0;
+  padding-bottom: 4px;
+  padding-top: 8px;
+  height:0;
+  border-bottom:1px solid #ccc;
+  vertical-align:middle;
+}
+
+.instance-settings span {
+  background-color: #FFF;
+  padding-right: 5px;
+}
+.instance-settings hr {
+  margin-bottom:  2px;
+}
+
+.info-icon { color: #3399F3;}
+
+.fixed {min-width: 400px;}
+
+.vnc-loader {
+  position:inline-block;
+  height: 644px;
+  width:813px;
+  background-color: #000;
+  vertical-align: middle;
+  text-align:center;
+}
+
+.vnc-loader h4 {
+  color: white;
+  font-face: monospace;
+  font-weight: lighter;
+  font-size: 14px;
+}
+
+.vnc-loader-contents {
+  position:relative;
+  top: 220px;
+  left: 260px;
+  height: 100px;
+  width: 300px;
+
+}
+
+.no-vms {
+  border:1px solid #d3d3d3;
+  border-radius:8px;
+  padding: 8px;
+  margin-top: 20px;
+  width: 400px;
+}
+
+.version-footer {
+
+  position: relative;
+  display: block;
+  color: #cdcdcd;
+  width: 98%;
+  text-align: right;
+  padding-bottom: 10px;
+  font-size: x-small;
+  z-index: 0;
+}
+
+.timeout-message {
+  top: 200px;
+  text-align: center;
+  width: 500px;
+}
+
+.csf-ossupport-container {
+  border: 1px solid #049CDB;
+  padding: 10px;
+  width: 428px;
+  border-radius: 6px;
+}
+
+.csf-ossupport-container input {
+  height: 18px;
+}
+
+.os-support-title {
+  font-weight: bold;
+  color: #049CDB;
+}
+.os-support-text {
+  position: relative;
+  top: 4px
+}
+
+.csf-subsection-header {
+  font-size: 18px;
+  margin-top: 5px;
+  margin-bottom: 26px;
+}
+
+
+.popover {
+  position:absolute;
+  z-index: 2060;
+}
+
+
+
+

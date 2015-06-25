@@ -1,0 +1,29 @@
+<div class="loading-forms" ng-show="!instance.name">
+    <div class="loading-message">
+        <h4>Building Instance Profile...</h4>
+        <div csf-loader ></div>
+    </div>
+</div>
+<fieldset ng-show="instance.name">
+    <legend>Create VM with these settings?</legend>
+    <div class="span4 instance-settings">
+        <h4><span>Required Settings</span></h4>
+        <ul>
+            <li><strong>Label</strong>: {{instance.name}}</li>
+            <li><strong>Platform</strong>: {{instance.image.os.description}}</li>
+            <li><strong>Zone</strong>: {{instance.zone.name}}</li>
+            <li><strong>Size</strong>: {{instance.flavor.label}}</li>
+        </ul>
+        <h4><span>Optional Settings</span></h4>
+        <ul>
+            <li><strong>OS Support</strong>: {{supported}}</li>
+            <li data-ng-show="!instance.image.os.description || instance.image.os.description != 'Microsoft/Windows'"><strong>Admin Domain</strong>: {{domain}}</li>
+            <li data-ng-show="!instance.image.os.description || instance.image.os.description != 'Microsoft/Windows'"><strong>Admin Account</strong>: {{account}}</li>
+            <li data-ng-show="instance.cloudInitData"><strong>Cloud Init Data</strong>: {{instance.cloudInitData}}</li>
+            <li data-ng-show="!instance.image.os.description || instance.image.os.description != 'Microsoft/Windows'"><strong>Application Stack</strong>: {{recipe}}</li>
+        </ul>
+    </div>
+    <div class="span8">
+
+    </div>
+</fieldset>

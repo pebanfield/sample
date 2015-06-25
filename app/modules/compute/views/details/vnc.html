@@ -1,0 +1,24 @@
+<div style="position: relative">
+    <div class=loading-progress ng-show="isMetricsLoading && !isLoading">
+        <div class=loading-message>
+            <h4>VNC Console Loading...</h4>
+            <div csf-loader ></div>
+        </div>
+    </div>
+</div>
+<div>
+    <p>If VNC console is not responding to keyboard input:</p>
+    <ol>
+        <li>Click the gray bar to the left of the Send CtrlAltDel button</li>
+        <li>Press &lt;Enter&gt;</li>
+        <li>The VNC window will refresh.</li>
+    </ol>
+    <div class="vnc-loader" data-ng-show="!vnc_url">
+    <div class="vnc-loader-contents">
+        <h4>Loading VNC client...</h4>
+        <div csf-loader ></div>
+    </div>
+    </div>
+    <div data-ng-show="vnc_url"><iframe class="vnc_frame" frameborder="0" height="644px" width="813px" src="{{vnc_url}}"></iframe></div>
+</div>
+<div ui-view></div>

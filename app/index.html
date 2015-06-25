@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="cloudweb">
+  <head>
+    <meta charset="utf-8">
+    <title>DTSS : Hosting Services</title>
+      <!-- this Section is Generated DO NOT Edit directly run grunt GENHTML to generate-->
+<!--genhtml:css-->
+<link href="/styles/cloudweb.css" rel="stylesheet" media="screen" />
+<!--endgenhtml-->
+  </head>
+  <body id="cloudweb" class="standalone">
+    <form id="cloudwebForm">
+      <input type="hidden" ng-init="request_path='<%= request_path%>'">
+    </form>
+    <div ng-controller="MainCtrl"
+      ng-include src="'/views/main.html'">
+    </div>
+    <div class="version-footer">DTSS : Cloudweb - v <!--genhtml:version-->0.2.3-2<!--endgenhtml--></div>
+
+<!-- this Section is Generated DO NOT Edit directly run grunt GENHTML to generate-->
+<!--genhtml:js-->
+<script src="vendor/components/jquery/dist/jquery.js"></script>
+<script src="vendor/components/jquery.cookie/jquery.cookie.js"></script>
+<script src="vendor/components/angular/angular.js"></script>
+<script src="vendor/components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="vendor/components/angular-ui-utils/modules/utils.js"></script>
+<script src="vendor/components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="vendor/components/lodash/dist/lodash.compat.js"></script>
+<script src="vendor/components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="vendor/components/angular-animate/angular-animate.js"></script>
+<script src="vendor/components/angular-strap/dist/angular-strap.min.js"></script>
+<script src="vendor/components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+<script src="vendor/components/select2/select2.js"></script>
+<script src="vendor/components/angular-ui-select2/src/select2.js"></script>
+<script src="components/loading-directive/loading-directive.js"></script>
+<script src="app.js"></script>
+<script src="app_controller.js"></script>
+<script src="components/config_dev.js"></script>
+<script src="components/directives/csf_modules.js"></script>
+<script src="components/text-scroller-directive/text-scroller-directive.js"></script>
+<script src="components/slide-menu-directive/slidemenu.js"></script>
+<script src="components/csf/services/csf-flash-services.js"></script>
+<script src="components/csf/services/csf-data-services.js"></script>
+<script src="components/filters/filters.js"></script>
+<script src="modules/dbaas/database.js"></script>
+<script src="modules/dbaas/database-services.js"></script>
+<script src="modules/compute/compute.js"></script>
+<script src="modules/compute/compute_controller.js"></script>
+<script src="modules/compute/components/resource_filter/resource_filter_directive.js"></script>
+<script src="modules/compute/components/suspend-modal-directive/suspend-modal-directive.js"></script>
+<script src="modules/compute/components/resource-status-class-directive/resource-status-class-directive.js"></script>
+<script src="modules/compute/modules/list-view/list-view-controller.js"></script>
+<script src="modules/compute/js/directives/formdirectives.js"></script>
+<script src="modules/compute/js/directives/resources/resourcelist.js"></script>
+<script src="modules/compute/js/directives/resources/instancemedium.js"></script>
+<script src="modules/compute/js/directives/resources/instancelarge.js"></script>
+<script src="modules/compute/js/directives/resources/volumemedium.js"></script>
+<script src="modules/compute/js/directives/resources/volumelarge.js"></script>
+<script src="modules/compute/js/directives/resources/snapshotmedium.js"></script>
+<script src="modules/compute/js/directives/resources/snapshotlarge.js"></script>
+<script src="modules/compute/js/directives/resources/secgroupmedium.js"></script>
+<script src="modules/compute/js/directives/resources/secgrouplarge.js"></script>
+<script src="modules/compute/js/services/services.js"></script>
+<script src="modules/compute/js/services/configuration.js"></script>
+<script src="modules/compute/js/services/delegates/clientstorage.js"></script>
+<script src="modules/compute/js/services/appdata.js"></script>
+<script src="modules/compute/js/services/identity.js"></script>
+<script src="modules/compute/js/services/dns.js"></script>
+<script src="modules/compute/js/services/delegates/monitoringdataparser.js"></script>
+<script src="modules/compute/js/services/delegates/computedataparser.js"></script>
+<script src="modules/compute/js/services/delegates/clientstorage.js"></script>
+<script src="modules/compute/js/services/instancedata.js"></script>
+<script src="modules/compute/js/services/serveractions.js"></script>
+<script src="modules/compute/js/services/monitors.js"></script>
+<script src="modules/compute/js/controllers/resources/instancedetailsbase.js"></script>
+<script src="modules/compute/js/controllers/resources/logdetails.js"></script>
+<script src="modules/compute/js/controllers/resources/metricsdetails.js"></script>
+<script src="modules/compute/js/controllers/resources/monitoringdetails.js"></script>
+<script src="modules/compute/js/controllers/resources/summarydetails.js"></script>
+<script src="modules/compute/js/controllers/resources/vncdetails.js"></script>
+<script src="modules/compute/js/controllers/forms/provisionbase.js"></script>
+<script src="modules/compute/js/controllers/forms/provisionrequired.js"></script>
+<script src="modules/compute/js/controllers/forms/provisionoptions.js"></script>
+<script src="modules/compute/js/controllers/forms/provisionconfirm.js"></script>
+<script src="modules/compute/js/controllers/forms/provisioncomplete.js"></script>
+<script src="modules/compute/js/controllers/modals/addmonitor.js"></script>
+<script src="modules/compute/js/controllers/modals/updatemonitor.js"></script>
+<script src="modules/compute/js/controllers/modals/manageconfirm.js"></script>
+<script src="modules/compute/js/controllers/popovers/monitor.js"></script>
+<script src="modules/compute/js/controllers/popovers/vmstate.js"></script>
+<script src="modules/compute/js/controllers/popovers/dnsflyout.js"></script>
+<!--endgenhtml-->
+    </body>
+</html>

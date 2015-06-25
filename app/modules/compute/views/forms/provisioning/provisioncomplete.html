@@ -1,0 +1,52 @@
+<div class="loading-forms" ng-show="!instanceId">
+    <div class="loading-message">
+        <h4>Creating Instance Profile...</h4>
+        <div csf-loader ></div>
+    </div>
+</div>
+<fieldset ng-show="instanceId">
+    <legend>Your virtual machine is starting...</legend>
+    <div class="row-fluid">
+        <div class="span4">
+            <h4>Access your VM instance</h4>
+            <div data-ng-show="isWindows">
+              <p>You can access your new Windows VM now with the web based <a href="{{currentVNCurl}}" target="_self">VNC Remote Desktop Client</a>.</p>
+            </div>
+            <div data-ng-show="isLinuxNoAccess">
+                <p>You can access your new Linux based VM now with the web based <a href="{{currentVNCurl}}" target="_self">VNC client</a>.</p>
+                <p>You have not created a new user account and are using the default cloud-user account. Please be aware that this is not the most secure option.</p>
+            </div>
+            <div data-ng-show="isLinux">
+                <p>- with the the web based <a href="{{currentVNCurl}}" target="_self">VNC client</a>.</p>
+              <p>- or directly with the following terminal command : </p>
+              <pre>{{sshStr}}</pre>
+
+            </div>
+        </div>
+        <div class="span1"></div>
+        <div class="span6">
+        <h4>Getting Started</h4>
+            <ul>
+              <li>
+                  <a href="https://devcentraldocs.corp.dig.com/display/ODC/Logging+Into+Your+VM+for+the+First+Time"
+                     target="_blank">
+                      Logging into your instance
+                  </a>
+              </li>
+            </ul>
+        <h4>More administration</h4>
+        <ul>
+            <li>
+                <a href="#/compute/zones/id/{{instanceId}}/summary">
+                    View Server Details
+                </a>
+            </li>
+            <li>
+                <a href="#/compute/zones">
+                    Return to the Instances Table
+                </a>
+            </li>
+        </ul>
+        </div>
+    </div>
+</fieldset>

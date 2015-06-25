@@ -1,0 +1,44 @@
+<div class="row">
+  <div ng-repeat="resource in zone.resources">
+    <div class="col-sm-4 col-md-3 col-lg-2">
+      <div ng-if="checkResourceTemplate(resource.type, 'instance', 'medium')"
+        csf-instance-medium
+        class="csf-card-medium csf-instance-medium"></div>
+      <div ng-if="checkResourceTemplate(resource.type, 'instance', 'large')"
+        csf-instance-large
+        data-resource="true"
+        class="csf-card-large csf-instance-large "
+        data-ng-config="{{resource.data}}"></div>
+      <div ng-if="checkResourceTemplate(resource.type, 'snapshot', 'medium')"
+        csf-snapshot-medium
+        data-resource="true"
+        class="csf-card-medium csf-snapshot-medium"
+        data-ng-config="{{resource.data}}"></div>
+      <div ng-if="checkResourceTemplate(resource.type, 'snapshot', 'large')"
+        csf-snapshot-large
+        data-resource="true"
+        class="csf-card-large csf-snapshot-large "
+        data-ng-config="{{resource.data}}"></div>
+      <div ng-if="checkResourceTemplate(resource.type, 'volume', 'medium')"
+        csf-volume-medium
+        data-resource="true"
+        class="csf-card-medium csf-volume-medium"
+        data-ng-config="{{resource.data}}"></div>
+      <div ng-if="checkResourceTemplate(resource.type, 'volume', 'large')"
+        csf-volume-large
+        data-resource="true"
+        class="csf-card-large csf-volume-large "
+        data-ng-config="{{resource.data}}"></div>
+      <div ng-if="checkResourceTemplate(resource.type, 'secgroup', 'medium')"
+        csf-secgroup-medium
+        data-resource="true"
+        class="csf-card-medium csf-secgroup-medium"
+        data-ng-config="{{resource.data}}"></div>
+      <div ng-if="checkResourceTemplate(resource.type, 'secgroup', 'large')"
+        csf-secgroup-large
+        data-resource="true"
+        class="csf-card-large csf-secgroup-large "
+        data-ng-config="{{resource.data}}"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="col-sm-12">
+  <p class="no-vms" ng-show="listView.isZoneEmpty">There are no virtual machines provisioned in this tenant zone.</p>
+    <table class="table table-striped table-bordered table-condensed" ng-show="!isZoneEmpty">
+      <thead>
+        <tr>
+          <th>
+            <a href="" ng-click="listView.sortInstances('name')">Label</a>
+            <i ng-class="listView.sortClass('name')"></i>
+          </th>
+          <th class="centered">
+            <span tooltip="'Monitoring Status'">Mon</span>
+          </th>
+          <th class="centered">Internal IP</th>
+          <th class="centered">Internal DNS</th>
+          <th class="centered">Public IP</th>
+          <th class="centered">Public DNS</th>
+          <th>
+            <a href="" ng-click="listView.sortInstances('size.sort')">
+              <span class="size-header-part cpu">CPU</span>/<span class="size-header-part ram">RAM</span>
+            </a>
+            <i ng-class="listView.sortClass('size.sort')"></i></th>
+          <th>
+            <a href="" ng-click="listView.sortInstances('disk')">Disk</a>
+            <i ng-class="listView.sortClass('disk')"></i>
+          </th>
+          <th>
+            <a href="" ng-click="listView.sortInstances('platformDescription')">Platform</a>
+            <i ng-class="listView.sortClass('platformDescription')"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="servers">
+      <tr ng-repeat="resource in zone.resources | orderBy:listView.predicate:listView.reverse | filter:searchText">
+        <td>
+          <a href="" ng-switch="resource.status" data-title="{{resource.name}} status" data-ng-controller="VMState">
+            <i ng-switch-when="ACTIVE" class="fa fa-desktop text-success"></i>
+            <i ng-switch-when="BUILD" class="fa fa-cogs text-warning"></i>
+            <i ng-switch-when="SUSPENDED" class="fa fa-desktop text-warning"></i>
+            <i ng-switch-when="RESTARTING" class="fa fa-refresh text-warning"></i>
+            <i ng-switch-when="SUSPENDING" class="fa fa-refresh text-warning"></i>
+            <i ng-switch-when="RESUMING" class="fa fa-refresh text-success"></i>
+            <i ng-switch-when="DELETING" class="fa fa-trash text-error"></i>
+            <i ng-switch-when="SHUTDOWN" class="fa fa-desktop muted"></i>
+            <i ng-switch-when="SHUTOFF" class="fa fa-desktop muted"></i>
+            <i ng-switch-when="ERROR" class="fa fa-desktop text-error"></i><i class="fa fa-caret-right"></i></a>
+          <a class="server-details" ui-sref="instancedetails({id: resource.id})">{{ resource.name }}</a>
+        </td>
+        <td class="centered">
+          <a href="" ng-show="resource.monitorData" >
+            <i ng-class="listView.monitorClass(resource.monitorData.status)" class=""></i>
+          </a>
+          <i class="fa fa-spinner fa-spin" ng-show="!resource.monitorData"></i>
+        </td>
+        <td class="centered">{{ resource.ip }}</td>
+        <td class="centered">
+          <a class="dns-flyout" href="" ng-click="setInstanceData(false)" >
+            <span data-ng-repeat="record in resource.dnsRecords" ng-show="resource.ip && resource.dnsRecords.length">
+              <span>
+                {{record.name}}<span ng-hide="$last">,</span>
+              </span>
+            </span>
+
+            <span ng-hide="resource.ip && resource.dnsRecords.length">[no dns]</span>
+          </a>
+        </td>
+        <td class="centered" data-ng-switch="resource.vip.status">
+          <a data-ng-switch-when="Created" href="" >
+            {{resource.vip.publicIp}}
+          </a>
+          <a data-ng-switch-when="Null" href="" data-ng-click="requestVip(instance)">Request VIP</a>
+
+          <strong class="text-success" data-ng-switch-default>{{resource.vip.status}}</strong>
+        </td>
+        <td class="centered" >
+          <a class="dns-flyout" href="" ng-click="setInstanceData(true)" >
+            <span data-ng-repeat="record in resource.vip.dnsRecords" ng-show="resource.vip.dnsRecords.length > 0">
+              <span>
+                {{record.name}}<span ng-hide="$last">,</span>
+              </span>
+            </span>
+            <i class="fa fa-spinner fa-spin" ng-show="resource.vip.publicIp && !resource.vip.dnsRecords"></i>
+            <span ng-show="resource.vip.publicIp && resource.vip.dnsRecords.length === 0">[no dns]</span>
+          </a>
+          <span ng-hide="resource.vip.publicIp">VIP Required</span>
+
+        </td>
+        <td>
+          <div >
+            <i class="cpu-ram">
+              <i class="cpu cpu{{ resource.cpus }}"></i>
+              <i class="ram{{ resource.ram_mb }}"></i>
+            </i> {{ resource.cpus }}/{{ resource.ram_mb }}GB
+          </div>
+        </td>
+        <td>{{resource.disk}} GB</td>
+        <td>
+          <span tooltip="{{ resource.platformDescription }}" >
+            {{ resource.platform }}
+          </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+</div>

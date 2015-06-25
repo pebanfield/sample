@@ -1,0 +1,259 @@
+<div class="modal-header">
+    <button type="button" class="close" data-ng-click="closeModal()" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 ng-show="updateMode">
+        <i class="fa fa-bullseye"></i>
+        Update Monitor
+    </h3>
+    <h3 ng-show="!updateMode">
+        <i class="fa fa-bullseye"></i>
+        Create Monitor
+    </h3>
+</div>
+<div class="modal-body">
+    <form name="monitorForm">
+    <div class="row-fluid">
+        <label class="span4 req">
+            Template
+            <span
+               data-placement="bottom"
+               class="fa fa-info-sign info-icon"
+               scope="ttScope"
+               data-trigger='focus'
+               tooltip-placement=bottom
+               tooltip-html-unsafe="Choose an HTTP/HTTPS monitor for web applications or a ping monitor to check that an instance is up and running. GET is currenty the only method available for HTTP/HTTPS monitors."></span>
+        </label>
+        <span class="span8">
+            <span ng-show="updateMode">{{mon.template}}</span>
+            <select
+                data-ng-change="templateChange()"
+                ng-show="!updateMode"
+                ng-options="t for t in templates"
+                data-ng-model="template"></select>
+        </span>
+    </div>
+    <div class="row-fluid" data-ng-show="showTemplate()">
+        <label class="span4 req">
+            Monitor Name
+            <span
+               data-placement="bottom"
+               class="fa fa-info-sign info-icon"
+               scope="ttScope"
+               data-trigger='focus'
+               tooltip-placement=bottom
+               tooltip-html-unsafe="Enter a unique name for the monitor you are creating. Your name will also allow you to sort and search. We suggest that you make it descriptive if possible."></span>
+        </label>
+        <span class="span8">
+            <input
+                type="text" name="monitorName"
+                data-ng-model="mon.name"
+                data-ng-change="validateMonitorName()"
+            />
+            <i
+                class="fa fa-asterisk text-error"
+                data-bs-tooltip="'Monitor name is required'"
+                data-placement="right" ng-show="!monitorNameIsValid"></i>
+            <div class="alert alert-error" ng-show="!monitorNameIsValid">
+                <i class="fa fa-warning-sign"></i>
+                Please provide a unique monitor name
+            </div>
+        </span>
+    </div>
+    <div class="row-fluid" data-ng-show="false">
+        <label class="span4 req">
+            Organization
+            <span
+               data-placement="bottom"
+               class="fa fa-info-sign info-icon"
+               scope="ttScope"
+               data-trigger='focus'
+               tooltip-placement=bottom
+               tooltip-html-unsafe="Owner organization selected for all monitors for this instance "></span>
+        </label>
+        <span class="span8">
+            TOCIS
+        </span>
+    </div>
+    <div class="row-fluid">
+        <label class="span4 req">
+            Email
+            <span
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign info-icon"
+               data-trigger="focus"
+               tooltip-placement=bottom
+               tooltip-html-unsafe="Enter the email address for a user or a distribution list who will be notified when events occur."></span>
+        </label>
+        <span class="span8">
+            <input
+                type="email" data-ng-required="true"
+                data-ng-model="mon.email"
+                name="emailInput"
+                data-ng-change="validateForm()">
+            <i class="fa fa-asterisk text-error"
+               data-bs-tooltip="'Email is required'"
+               data-placement="right" ng-show="!monitorEmailIsValid"></i>
+            <div class="alert alert-error" ng-show="!monitorEmailIsValid">
+                <i class="fa fa-warning-sign"></i>
+                A valid address Email is required
+            </div>
+        </span>
+    </div>
+    <div class="row-fluid">
+        <label class="span4 req">
+            Action on event
+            <span
+               onmousedown="this.focus()"
+               data-placement="bottom"
+               class="fa fa-info-sign info-icon"
+               data-trigger="focus"
+               tooltip-placement=bottom
+               tooltip-html-unsafe="Choose the type of action you would like to take in the event of a failure."></span>
+        </label>
+        <span class="span8 form-inline">
+            <label class="radio">
+                <input
+                    id="radMonitorActionEmail"
+                    type="radio" ng-value="'email'"
+                    data-ng-change="ticketMode()"
+                    name="radMonitorAction"
+                    data-ng-model="monitorAction" ng-selected="true"
+
+                />Email
+
+            </label>
+            &nbsp;
+            <label class="radio">
+                <input
+                    type="radio" ng-value="'ticket'"
+                    data-ng-model="monitorAction"
+                    name="radMonitorAction"
+                    data-ng-change="ticketMode()"
+                />
+                Ticket
+            </label>
+
+        </span>
+    </div>
+    <div data-ng-show="showTemplate()">
+        <div class="row-fluid">
+            <label class="span4 req">
+                Url Path / Port
+                <a href=javascript:void(0)
+                   onmousedown="this.focus()"
+                   data-placement="bottom"
+                   class="fa fa-info-sign"
+                   data-trigger="focus"
+                   tooltip-placement=bottom
+                   tooltip-html-unsafe="URL Path is optional, Port is required. URL Path when specified, the path should be absolute and begin with a slash. Enter the port number that will be used by your service."></a>
+            </label>
+            <span class="span8">
+                <input type="text" data-ng-model="mon.data.url" placeholder="Url" data-ng-change="validateMonitorName()">
+                <input type="text" class="input-mini" data-ng-model="mon.data.port" placeholder="Port" data-ng-change="validateMonitorName()">
+            </span>
+        </div>
+        <div class="row-fluid">
+            <label class="span4 req">
+                Test Interval / Timeout
+                <span
+                   onmousedown="this.focus()"
+                   data-placement="top"
+                   class="fa fa-info-sign info-icon"
+                   data-trigger="focus"
+                   tooltip-placement=bottom
+                   tooltip-html-unsafe="The frequency that your monitor will run. Timeout is the length of time that that the system will attempt to run your monitor. If it is unsuccessful for the specified amount of time, it will timeout."></span>
+            </label>
+            <span class="span8">
+                <input
+                    type="text" class="input-mini"
+                    data-ng-model="mon.data.cycletime"
+                    data-ng-change="validateMonitorName()"
+                    placeholder="Interval"
+                    data-bs-tooltip="'Test Interval'"
+                    data-placement="right"> /
+                <input
+                    type="text" class="input-mini"
+                    data-ng-model="mon.data.timeout"
+                    data-ng-change="validateMonitorName()"
+                    placeholder="Timeout"
+                    data-bs-tooltip="'Timeout'"
+                    data-placement="right">
+            </span>
+        </div>
+    </div>
+    <div data-ng-show="mon.sd_ticket">
+        <div class="row-fluid">
+            <label class="span4 req">
+                Contact Phone #'s
+            </label>
+            <span class="span8">
+                <input
+                    data-ng-required="true"
+                    type="text" name="primaryPhone"
+                    data-ng-model="mon.ticketOptions.primary_contact.phone"
+                    placeholder="Primary Contact Phone"
+                    ng-pattern="/^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/"
+                    data-ng-change="validateForm()"
+                />
+                <i class="fa fa-asterisk text-error" data-bs-tooltip="'Primary Contact Phone is required'" data-placement="right"></i>
+                <br/>
+                <div class="alert alert-error" ng-show="monitorForm.primaryPhone.$error.required">
+                    <i class="fa fa-warning-sign"></i>
+                    Primary Contact Phone is required
+                </div>
+                <div class="alert alert-error" ng-show="monitorForm.primaryPhone.$error.pattern">
+                    <i class="fa fa-warning-sign"></i>
+                    Enter a valid contact phone including area code.
+                </div>
+                <input type="text" data-ng-model="mon.ticketOptions.secondary_contact.phone" placeholder="Secondary Contact Phone"/>
+            </span>
+        </div>
+        <div class="row-fluid">
+            <label class="span4 req">
+                Script
+            </label>
+            <span class="span8">
+                <input type="text" data-ng-model="mon.ticketOptions.script" placeholder="Script" data-ng-change="validateMonitorName()"><br/>
+                <div style="margin:-7px 0 8px">
+                <label>
+                    <input type="checkbox" data-ng-model="mon.ticketOptions.restart" data-ng-change="validateMonitorName()"/>
+                    Attempt Restart
+                </label>
+                </div>
+            </span>
+        </div>
+    </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button
+        data-ng-show="!updateMode"
+        class="btn btn-success pull-left"
+        data-ng-click="testMonitor()"
+        data-ng-disabled="testingMonitor">Test</button>
+
+    <div class="alert alert-success monitor-test-msg" data-ng-show="testResult == 200">
+        <i class="fa fa-thumbs-up-alt"></i>
+        This VM is ready for monitoring!
+    </div>
+    <div class="alert alert-error monitor-test-msg" data-ng-show="testResult > 300">
+        <i class="fa fa-thumbs-down-alt"></i>
+        There is a problem with the monitoring configuration.
+    </div>
+    <div class="maas-test-status-loading" data-ng-show="requestPending">
+        <div csf-loader></div>
+    </div>
+    <button
+        class="btn btn-primary"
+        data-ng-show="!updateMode"
+        data-ng-click="createMonitor()"
+        data-ng-disabled="!formValid && !requestPending">
+        <i class="fa fa-bullseye"></i>
+        Create Monitor
+    </button>
+    <button class="btn btn-info" data-ng-show="updateMode" data-ng-click="updateMonitor()" data-ng-disabled="!formValid && !requestPending">
+        <i class="fa fa-bullseye"></i>
+        Update Monitor
+    </button>
+
+</div>

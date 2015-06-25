@@ -1,0 +1,39 @@
+ <div class="modal-header dialog-header-confirm">
+    <button type="button" class="close" ng-click="options.cancel()">&times;</button>
+    <h4 class="modal-title"><span class="fa fa-check"></span>&nbsp;{{ options.title }}</h4>
+  </div>
+  <div class="modal-body">
+    <span class="modal-message" ng-bind-html="options.message"></span>
+  </div>
+  <div class="modal-footer">
+    <form name="form" novalidate>
+
+      <input
+        class="modal-checkbox"
+        type="checkbox"
+        ng-model="reconfirm"
+        name="reconfirm"
+        id="reconfirm"
+        required="form.reconfirm=true"
+        ng-if="options.checkToSubmit"/>
+
+      <label
+        class="modal-checkbox-label"
+        for="reconfirm"
+        ng-if="options.checkToSubmit">I understand, please delete this database.</label>
+
+      <button
+        type="button"
+        class="btn btn-default"
+        ng-click="options.cancel()">{{ options.cancelButtonText }}</button>
+
+      <button
+        type="button"
+        class="btn btn-danger"
+        ng-disabled="form.$invalid"
+        ng-click="options.confirm()">{{ options.confirmButtonText }}</button>
+
+    </form>
+  </div>
+
+

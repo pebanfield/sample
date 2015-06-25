@@ -1,0 +1,177 @@
+<div class="loading-progress" ng-show="!loaded">
+  <div class="loading-message">
+    <h4>Loading Instance Data...</h4>
+    <div csf-loader></div>
+  </div>
+    <div class="error-message-outer" ng-show="timeout">
+      <div class="error-message-inner">
+          <div class="hero-unit warning timeout-message">
+              <p><i class="fa fa-warning-sign"></i> Error :  There is a problem accessing instance data for this user.</p>
+              <p>Are you a new user? Please ensure that you have <a href="https://iaas-dashboard.corp.dig.com/signup" target="_blank">registered</a> in the <br/><b>IAAS Dashboard</b>.</p>
+          </div>
+      </div>
+    </div>
+</div>
+
+<div class="container">
+
+
+<div class="vm-header-row">
+  <h4 class="vm-table-header">VM Instances by Zone:</h4>
+  <select id="zoneSelector"
+          class="vm-list-select"
+          ng-model="currentZone"
+          ng-Change="loadTable()"
+          ng-options="zone as zone.name for zone in zoneList">
+  </select>
+    <a class="btn btn-primary-white pull-right white"  href="/#/compute/provision/required" ng-show="!noZones">
+        <i class=fa fa-plus-sign></i>
+        Create New Virtual Machine
+    </a>
+</div>
+<p class="no-vms" ng-show="isZoneEmpty">There are no virtual machines provisioned in this tenant zone.</p>
+<table class="table table-striped table-bordered table-condensed" ng-show="!isZoneEmpty">
+    <thead>
+        <tr>
+            <th>
+                <a href=javascript:void(0) ng-click="sortInstances('name')">Label</a>
+                <i ng-class="sortClass('name')"></i>
+            </th>
+            <th class="centered">
+                <span data-bs-tooltip="'Monitoring Status'" data-placement="bottom">Mon</span>
+            </th>
+            <th class="centered">Internal IP</th>
+            <th class="centered">Internal DNS</th>
+            <th class="centered">Public IP</th>
+            <th class="centered">Public DNS</th>
+            <th>
+                <a href=javascript:void(0) ng-click="sortInstances('size.sort')">
+                    <span class="size-header-part cpu">CPU</span>/<span class="size-header-part ram">RAM</span>
+                </a>
+                <i ng-class="sortClass('size.sort')"></i></th>
+            <th>
+                <a href=javascript:void(0) ng-click="sortInstances('disk')">Disk</a>
+                <i ng-class="sortClass('disk')"></i>
+            </th>
+            <th>
+                <a href=javascript:void(0) ng-click="sortInstances('platformDescription')">Platform</a>
+                <i ng-class="sortClass('platformDescription')"></i>
+            </th>
+        </tr>
+    </thead>
+    <tbody class="servers">
+        <tr data-ng-repeat="instance in instances | orderBy:predicate:reverse">
+            <td>
+                <a href="javascript:void(0)"
+                    ng-switch="instance.status"
+                    data-placement="right"
+                    data-title="{{instance.name}} status"
+                    data-unique="1"
+                    data-bs-popover="'/views/app/modules/odh/views/popovers/vmstate.html'"
+                    data-ng-controller="VMState">
+                    <i ng-switch-when="ACTIVE" class="fa fa-desktop text-success"></i>
+                    <i ng-switch-when="BUILD" class="fa fa-cogs text-warning"></i>
+                    <i ng-switch-when="SUSPENDED" class="fa fa-desktop text-warning"></i>
+                    <i ng-switch-when="RESTARTING" class="fa fa-refresh text-warning"></i>
+                    <i ng-switch-when="SUSPENDING" class="fa fa-refresh text-warning"></i>
+                    <i ng-switch-when="RESUMING" class="fa fa-refresh text-success"></i>
+                    <i ng-switch-when="DELETING" class="fa fa-trash text-error"></i>
+                    <i ng-switch-when="SHUTDOWN" class="fa fa-desktop muted"></i>
+                    <i ng-switch-when="ERROR" class="fa fa-desktop text-error"></i>&nbsp;<i class="fa fa-caret-right"></i></a>
+                <a class="server-details" href="/#/compute/zones/id/{{instance.id}}/summary">{{ instance.name }}</a>
+            </td>
+            <td class="centered">
+                <a
+                    href="javascript:void(0)"
+                    data-unique="1"
+                    data-bs-popover="'/views/app/modules/odh/views/popovers/serverlistmonitorflyout.html'"
+                    ng-show="instance.monitorData"
+                    >
+                    <i ng-class="monitorClass(instance.monitorData.status)"></i>
+                </a>
+                <i class="fa fa-spinner" ng-show="!instance.monitorData"></i>
+            </td>
+            <td class="centered">{{ instance.ip }}</td>
+            <td class="centered">
+                <a
+                    class="dns-flyout"
+                    href="javascript:void(0)"
+                    data-id="privateDNS"
+                    ng-click="setInstanceData(false)"
+                    data-placement="bottom"
+                    data-title="Private DNS Records - {{instance.name}}"
+                    data-unique="1"
+                    data-bs-popover="'/views/app/modules/odh/views/popovers/dns.html'"
+                    data-ng-controller="DNSFlyout"
+                    >
+                <span
+                        data-ng-repeat="record in instance.dnsRecords"
+                        ng-show="instance.ip && instance.dnsRecords.length">
+                    <span>
+                        {{record.name}}<span ng-hide="$last">,</span>
+                    </span>
+                </span>
+
+                <span ng-hide="instance.ip && instance.dnsRecords.length">[no dns]</span>
+                </a>
+            </td>
+            <td class="centered" data-ng-switch="instance.vip.status">
+                <a
+                    data-ng-switch-when="Created"
+                    href="javascript:void(0)"
+                    data-bs-modal="'/views/app/modules/odh/views/modals/deletevipconfirm.html'"
+                    >
+                    {{instance.vip.publicIp}}
+                </a>
+                <a data-ng-switch-when="Null" href="javascript:void(0)" data-ng-click="requestVip(instance)">Request VIP</a>
+
+                <strong class="text-success" data-ng-switch-default>{{instance.vip.status}}</strong>
+            </td>
+            <td class="centered" >
+                <a
+                    class="dns-flyout"
+                    href="javascript:void(0)"
+                    data-id="publicDNS"
+                    ng-click="setInstanceData(true)"
+                    data-placement="bottom"
+                    data-title="Public DNS Records - {{instance.name}}"
+                    data-unique="1"
+                    data-bs-popover="'/views/app/modules/odh/views/popovers/dns.html'"
+                    data-ng-controller="DNSFlyout"
+                    >
+                    <span
+                        data-ng-repeat="record in instance.vip.dnsRecords"
+                        ng-show="instance.vip.dnsRecords.length > 0">
+                        <span>
+                            {{record.name}}<span ng-hide="$last">,</span>
+                        </span>
+                    </span>
+                    <i class="fa fa-spinner" ng-show="instance.vip.publicIp && !instance.vip.dnsRecords"></i>
+                    <span ng-show="instance.vip.publicIp && instance.vip.dnsRecords.length === 0">[no dns]</span>
+                </a>
+                    <span ng-hide="instance.vip.publicIp">VIP Required</span>
+
+            </td>
+            <td>
+                <div style="display: inline-block;cursor:default"
+                    data-placement="left"
+                    data-unique="1"
+                    data-trigger="hover"
+                    data-bs-popover="'/views/app/modules/odh/views/popovers/cpuram.html'">
+                    <i class="cpu-ram">
+                        <i class="cpu cpu{{ instance.cpus }}"></i>
+                        <i class="ram{{ instance.ram_mb }}"></i>
+                    </i> {{ instance.cpus }}/{{ instance.ram_mb }}GB
+                </div>
+            </td>
+            <td>{{instance.disk}} GB</td>
+            <td>
+                <span data-bs-tooltip="instance.platformDescription" data-placement="bottom">
+                    {{ instance.platform }}
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<div ui-view></div>

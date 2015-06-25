@@ -1,0 +1,48 @@
+<form class="dnsRecords" style="width:360px">
+    <ul class="radio-list" data-ng-repeat="record in dnsRecords">
+        <li>
+            <input
+                type="radio"
+                name="dnsrecord"
+                id="radRecord{{record}}"
+                ng-model="instance.selectedRecord"
+                ng-click="setSelectedRecord(record.name)"
+                value="{{record.name}}"
+            /><label for="radRecord{{record}}">{{record.name}}</label>
+        </li>
+    </ul>
+    <div ng-hide="dnsRecords.length > 0">
+        <em>No DNS Records exist for {{ip}}</em>
+    </div>
+    <div ng-show="flyoutStatus == 'addedSuccessfully'" class="alert alert-success">
+        <i class="fa fa-thumbs-up-alt"></i>
+        <em>{{newRecord}}.{{DNSSuffix}}</em> successfully added!
+    </div>
+    <div ng-show="flyoutStatus == 'deletedSuccessfully'" class="alert alert-success">
+        <i class="fa fa-thumbs-up-alt"></i>
+        {{scope.deletedRecord}}.{{DNSSuffix}} successfully deleted!
+    </div>
+    <div class="form-actions" style="width:360px;">
+        <button type="button"
+            class="btn btn-primary btn-small"
+            ng-click="addRecordModal()">
+            <i class="fa fa-plus-sign"></i>
+            Add New
+        </button>
+        <button type="button"
+            class="btn btn-small"
+            ng-click="updateRecordModal()"
+            ng-disabled="!instance.selectedRecord.length"
+            ><i class="fa fa-edit"></i>
+            Edit Selected
+        </button>
+        <button type="button"
+            class="btn btn-danger btn-small"
+            ng-click="confirmDeleteModal()"
+            ng-disabled="!instance.selectedRecord.length">
+            <i class="fa fa-trash"></i>
+            Delete Selected
+        </button>
+
+    </div>
+</form>

@@ -1,0 +1,13 @@
+<div style="position: relative">
+    <div class=loading-progress ng-show="isLoading">
+        <div class=loading-message>
+            <h4>Log Data Loading...</h4>
+            <div csf-loader ></div>
+        </div>
+    </div>
+</div>
+
+<pre class="log-output" ng-show="!isLoading">
+{{logArray}}
+</pre>
+<div ui-view ng-show="!isLoading"></div>

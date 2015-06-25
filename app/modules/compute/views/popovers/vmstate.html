@@ -1,0 +1,75 @@
+﻿<form name="popoverForm" style="width:360px">
+        <div class="server-status-lg" data-ng-switch="instance.status">
+            <div data-ng-switch-when="ACTIVE" class="text-success">
+                <i class="fa fa-desktop"></i>
+                <strong>Active</strong>
+            </div>
+            <div data-ng-switch-when="BUILD" class="text-warning">
+                <i class="fa fa-cogs"></i>
+                <strong>Building...</strong>
+            </div>
+            <div data-ng-switch-when="SUSPENDED" class="server-suspended">
+                <i class="fa fa-desktop"></i>
+                <strong>Suspended</strong>
+            </div>
+            <div data-ng-switch-when="SHUTDOWN" class="muted">
+                <i class="fa fa-desktop"></i>
+                <strong>Shut down</strong>
+            </div>
+            <div data-ng-switch-when="ERROR" class="text-error">
+                <i class="fa fa-desktop"></i>
+                <strong>Error</strong>
+            </div>
+            <div data-ng-switch-when="RESTARTING" class="text-warning">
+                <i class="fa fa-refresh"></i>
+                <strong>Restarting...</strong>
+            </div>
+            <div data-ng-switch-when="DELETING" class="text-error">
+                <i class="fa fa-trash"></i>
+                <strong>Deleting...</strong>
+            </div>
+            <div data-ng-switch-when="SUSPENDING" class="text-warning">
+                <div class="state-status-loading">
+                 <i class="fa fa-refresh"></i><strong> Suspending...</strong><div csf-loader></div>
+                </div>
+            </div>
+            <div data-ng-switch-when="RESUMING" class="text-success">
+                <div class="state-status-loading">
+                  <i class="fa fa-refresh"></i><strong> Resuming...</strong><div csf-loader></div>
+                </div>
+            </div>
+        </div>
+
+    
+    <div class="form-actions" style="width:360px;">
+        <button type="button" class="btn  btn-small" data-ng-click="suspendVM()" data-ng-disabled="instance.status != 'ACTIVE'">
+            <i class="fa fa-off"></i>
+            Suspend
+        </button>
+        <button type="button" class="btn  btn-small" data-ng-click="resumeVM()" data-ng-disabled="instance.status != 'SUSPENDED' && instance.status != 'SHUTDOWN'">
+            <i class="fa fa-play"></i>
+            Resume
+        </button>
+
+        <button
+            type="button"
+            class="btn  btn-small"
+            data-bs-modal="'/views/app/modules/compute/views/modals/backupvm.html'"
+            data-ng-show="false"
+            >
+            <i class="fa fa-download-alt"></i>
+            Backup
+        </button>
+        <a type="button" class="btn  btn-small" href="/#/compute/zones/id/{{instance.id}}/summary">
+            <i class="fa fa-list"></i>
+            Details
+        </a>
+        <button
+            type="button" data-ng-disabled="instance.status != 'ACTIVE'"
+            class="btn btn-danger btn-small"
+            data-ng-click="deleteConfirm()">
+        <i class="fa fa-trash"></i>
+        Delete
+    </button>
+    </div>
+</form>

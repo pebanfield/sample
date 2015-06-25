@@ -1,0 +1,59 @@
+﻿<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3>Backup Request</h3>
+</div>
+<div class="modal-body">
+    <div class="row-fluid">
+        <label class="span4 req">Requestor</label>
+        
+        <span class="span8" style="margin:2px 0 0 0;">{{user.first_name}} {{user.last_name}} ({{user.email}})</span>
+
+    </div>
+    <div class="row-fluid">
+        <label class="span4 req">Instance</label>
+        
+        <span class="span8" style="margin:2px 0 0 0;">{{instance.name}} ({{instance.ip}})</span>
+
+    </div>
+    <div class="row-fluid">
+        <label class="span4 req" bs-tooltip="'Enter the directories you want backed up separated by line breaks'" data-placement="right">
+            Directories
+            <i class="fa fa-info-sign"></i>
+        </label>
+        <textarea rows="4" class="span8" placeholder="Directories to back up"/>
+    </div>
+    <div class="row-fluid">
+        <label class="span4" data-placement="right" data-bs-tooltip="'Optionally enter the time of day back up this instance is queued. If left blank, will default to anytime.'">
+            Backup window (opt)
+            <i class="fa fa-info-sign"></i>
+        </label>
+        <div class="control-group input-append span8" style="margin-left:0;">
+            <input type="text" bs-timepicker class="span4" placeholder="Start time">
+            <button type="button" class="btn" data-toggle="timepicker">
+                <i class="fa fa-time"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <label class="span4 req" data-placement="right" data-bs-tooltip="'Select how long we should retain backups'">
+            Retention Period
+            <i class="fa fa-info-sign"></i>
+        </label>
+        <select>
+            <option>Month</option>
+            <option>Quarter</option>
+            <option>Two Weeks</option>
+            <option>Week</option>
+        </select>
+    </div>
+    <!--<div class="row-fluid">
+        <label class="span4">
+            Special Instructions (e.g., one-time backup)
+        </label>
+        <textarea rows="4" class="span8" placeholder="Special Instructions"/>
+    </div>-->
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" ng-click="hide()">Close</button>
+    <button class="btn btn-primary" ng-click="hide()">Submit Request</button>
+</div>

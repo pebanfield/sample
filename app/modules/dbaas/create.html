@@ -1,0 +1,166 @@
+
+<div class="database-panel database-create-view">
+  <h3 class="dbaas-panel-title database-create-title">On Demand Database</h3>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Create Database</h4>
+    </div>
+    <div class="panel-body">
+      <form name="form" ng-submit="createDatabase()" autocomplete="off" novalidate>
+        <fieldset>
+
+          <div class="form-group">
+            <label for="taxonomy" class="control-label">Affiliate or EART Application</label>
+            <input
+              class="form-control"
+              type="hidden"
+              data-placeholder="Select Affiliate or EART Application"
+              name="taxonomy"
+              id="taxonomy"
+              ui-select2="select2Options"
+              ng-model="database.taxonomy"
+              autofocus
+              required/>
+
+           <div class="help-text">
+            Make a selection from the dropdown list, or to find your items quicker, begin typing to
+            filter results based on the characters that you type.
+           </div>
+          </div>
+
+          <div class="form-group">
+            <label for="plan" class="control-label">Database Plan</label>
+            <select
+              class="form-control"
+              type="select"
+              name="plan"
+              id="plan"
+              ng-model="database.plan"
+              ng-options="p.value as p.name for p in plans"
+              ng-disabled="!plans"
+              required>
+              <option value="" selected>--&nbsp;Select a Plan&nbsp;--</option>
+              </select>
+              <input type="hidden" name="database.plan" ng-value="{{ database.plan }}"/>
+          </div>
+
+          <div class="form-group">
+            <label for="group" class="control-label">Database Group</label>
+
+            <select
+              class="form-control"
+              type="select"
+              name="group"
+              id="group"
+              ng-model="database.group"
+              ng-options="group for group in groups"
+              ng-disabled="!groups"
+              required>
+              <option value="" selected>--&nbsp;Select a Group&nbsp;--</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="name" class="control-label">Database Name</label>
+            <input
+              class="form-control"
+              type="text"
+              name="databaseName"
+              id="databaseName"
+              autocomplete='off'
+              placeholder="Specify a name for your database"
+              ng-model="database.name"
+              ng-minlength="3"
+              ng-maxlength="40"
+              csf-pattern="^[a-zA-Z][0-9a-zA-Z_]*$"
+              required />
+
+            <span ng-show="form.databaseName.$dirty &amp;&amp; form.databaseName.$error.minlength" class="help-block">Requires minimum 3 characters</span>
+            <span ng-show="form.databaseName.$dirty &amp;&amp; form.databaseName.$error.maxlength" class="help-block">Maximum of 40 characters</span>
+            <span ng-show="form.databaseName.$dirty &amp;&amp; form.databaseName.$error.csfPattern" class="help-block">The field must begin with an alphabetic character and contain only alphanumeric characters or the underscore character</span>
+          </div>
+
+          <div class="form-group">
+            <label for="admin" class="control-label">DB Admin Name</label>
+            <input
+              class="form-control"
+              type="text"
+              name="admin"
+              id="admin"
+              autocomplete='off'
+              placeholder="Enter a name for the database admin account"
+              ng-model="database.admin"
+              ng-minlength="3"
+              ng-maxlength="123"
+              csf-pattern="^[a-zA-Z][0-9a-zA-Z]*$"
+              required />
+
+            <span ng-show="form.admin.$dirty &amp;&amp; form.admin.$error.minlength" class="help-block">Requires minimum 3 characters</span>
+            <span ng-show="form.admin.$dirty &amp;&amp; form.admin.$error.maxlength" class="help-block">Maximum of 123 characters</span>
+            <span ng-show="form.admin.$dirty &amp;&amp; form.admin.$error.csfPattern" class="help-block">The field must begin with an alphabetic character and contain only alphanumeric characters</span>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="control-label">DB Admin Password</label>
+            <input
+              class="form-control"
+              type="password"
+              name="password"
+              id="password"
+              autocomplete='off'
+              placeholder="Enter in a secret database admin password"
+              ng-model="database.password"
+              ng-minlength="10"
+              ng-maxlength="128"
+              csf-lower-case-alpha-required
+              csf-upper-case-alpha-required
+              csf-number-required
+              csf-no-restricted-characters="[\`\*\'\-\%\;]+"
+              required />
+            <span ng-show="form.password.$dirty &amp;&amp; form.password.$error.minlength"                 class="help-block">Requires minimum 10 characters</span>
+            <span ng-show="form.password.$dirty &amp;&amp; form.password.$error.maxlength"                 class="help-block">Maximum of 128 characters</span>
+            <span ng-show="form.password.$dirty &amp;&amp; form.password.$error.csfUpperCaseAlphaRequired" class="help-block">Requires minimum of one upper case letter [A-Z]</span>
+            <span ng-show="form.password.$dirty &amp;&amp; form.password.$error.csfLowerCaseAlphaRequired" class="help-block">Requires minimum of one lower case letter [a-z]</span>
+            <span ng-show="form.password.$dirty &amp;&amp; form.password.$error.csfNumberRequired"         class="help-block">Requires minimum of one number [0-9]</span>
+            <span ng-show="form.password.$dirty &amp;&amp; form.password.$error.csfNoRestrictedCharacters" class="help-block">Contains restricted characters [ &#96; &#42; &#39; &#45; &#37; &#59; ]</span>
+          </div>
+
+          <div class="form-group">
+            <label for="verification" class="control-label">DB Admin Password (Verify)</label>
+            <input
+              class="form-control"
+              type="password"
+              name="verification"
+              id="verification"
+              autocomplete='off'
+              placeholder="Keep it secret. Keep it safe."
+              ng-model="database.verification"
+              csf-must-match="{{database.password}}"
+              required />
+            <span ng-show="form.verification.$dirty &amp;&amp; form.verification.$error.csfMustMatch" class="help-block">Passwords don't match</span>
+          </div>
+
+          <div class="form-group">
+
+            <input
+              type="hidden"
+              name="accountId"
+              id="accountId"
+              ng-model="database.account"
+              value="{{ accountId }}" />
+
+            <button
+              type="submit"
+              class="btn btn-success pull-right"
+              ng-show="true"
+              ng-disabled="form.$invalid">Create Database</button>
+
+            <a class="pull-left btn btn-large btn-default" ui-sref="databases.list">Cancel</a>
+          </div>
+
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+

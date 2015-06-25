@@ -1,0 +1,9 @@
+<div class="csf-sidenav">
+  <ul class="nav nav-pills nav-stacked" ng-repeat="item in items">
+    <li>
+      <a ui-sref='{{item.uisref}}' ng-class="{'active': $state.includes('{{item.ngclass}}')}">
+         <i tooltip="{{item.tooltip}}" tooltip-placement="right" class="{{item.class}}"></i>
+       </a>
+    </li>
+  </ul>
+</div>

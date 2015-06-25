@@ -1,0 +1,81 @@
+<div class="database-panel database-list-view">
+  <div class="clearfix">
+    <h3 class="dbaas-panel-title database-list-title pull-left">On Demand Database</h3>
+    <div class="database-list-button pull-right">
+      <a class="btn btn-success" ui-sref="databases.create">
+        <i class="fa fa-plus"></i>
+        Create Database
+      </a>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Databases</h4>
+    </div>
+
+    <div class="no-databases" ng-if="!databases.length">
+      <span>Click the "Create Database" button to add a database.</span>
+    </div>
+
+    <table class="table table-striped table-bordered table-hover table-condensed" ng-if="databases.length">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Max Size (MB)</th>
+          <th>Plan</th>
+          <th>Group</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="database in databases">
+        <tr >
+          <td><a href="" ng-click="toggleInfo($index)"><i class="fa fa-info-circle"></i> {{ database.Name }} </a></td>
+          <td>{{ database._status }}</td>
+          <td>{{ database.MaxSizeMB }}</td>
+          <td>{{ database._subscriptionName }}</td>
+          <td>{{ database._group }}</td>
+          <td style="text-align: center;">
+            <a href="" ng-click="deleteDatabase(database)" >
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </td>
+        </tr>
+        <tr ng-show="infoPosition == $index">
+          <td colspan="6" class="database-info">
+            <h4 class="database-info-title"> Database Connection Data </h4>
+            <dl>
+              <dt>DB Admin</dt>
+              <dd ng-show="database._conn.UserID">{{ database._conn.UserID }}</dd>
+              <dd ng-show="database._conn.UserId">{{ database._conn.UserId }}</dd>
+
+              <dt>DB Admin Password</dt>
+              <dd> &lt;Not displayed&gt;</dd>
+
+              <dt>Server Name</dt>
+              <dd ng-show="database._conn.DataSource">{{ database._conn.DataSource }}</dd>
+              <dd ng-show="database._conn.Server">{{ database._conn.Server }}</dd>
+
+              <dt ng-show="database._conn.InitialCatalog">Inital Catalog</dt>
+              <dd ng-show="database._conn.InitialCatalog">{{ database._conn.InitialCatalog }}</dd>
+
+              <dt ng-show="database._conn.Database">Database</dt>
+              <dd ng-show="database._conn.Database">{{ database._conn.Database }}</dd>
+
+              <dt ng-show="database._conn.AsynchronousProcessing">Asynchronous Processing</dt>
+              <dd ng-show="database._conn.AsynchronousProcessing">{{ database._conn.AsynchronousProcessing }}</dd>
+
+              <dt>Connection String</dt>
+              <dd>{{ database.ConnectionString }}</dd>
+
+            </dl>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+

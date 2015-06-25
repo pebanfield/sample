@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h3><a href="/"><i class="fa fa-caret-left"></i></a>&nbsp;<i class="fa fa-desktop large"></i> New Virtual Machine</h3>
+</div>
+<div class="form-body">
+  <form name="provisionForm" class="provision-form">
+      <div ui-view></div>
+  </form>
+</div>
+
+<div class="form-footer">
+    <button type="button"
+            ng-show="showCancel"
+            class="btn"
+            ng-click="cancel()">
+        Cancel
+    </button>
+    <button
+            class="btn btn-primary"
+            data-ng-show="showPrevBtn"
+            data-ng-click="showPrevious()"
+            >
+        Previous
+    </button>
+    <button
+            class="btn btn-primary"
+            data-ng-disabled="!isValid"
+            data-ng-show="showNextBtn"
+            data-ng-click="showNext()"
+            >
+        Next
+    </button>
+    <button
+            type="button"
+            class="btn btn-primary"
+            data-ng-disabled="isProvisioning"
+            ng-click="provisionVM()"
+            ng-show="showCreateBtn"
+            >
+        <i class="fa fa-desktop"></i>
+        Create VM
+    </button>
+
+</div>

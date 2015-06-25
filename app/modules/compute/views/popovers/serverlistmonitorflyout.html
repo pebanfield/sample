@@ -1,0 +1,36 @@
+<form class="popover-form" style="width:300px">
+    <p>
+    <div class="server-status-lg server-active" data-ng-show="showMonitorStatus(instance.monitorData.status,'ready')">
+        <i class="fa fa-bullseye text-info"></i>
+        Ready to monitor
+    </div>
+    <div class="server-status-lg" data-ng-show="showMonitorStatus(instance.monitorData.status,'active_no_events')">
+        <i class="fa fa-bullseye text-success"></i>
+        Actively Monitoring : No events
+    </div>
+    <div class="server-status-lg text-error" data-ng-show="showMonitorStatus(instance.monitorData.status,'active_events')">
+        <i class="fa fa-bullseye text-error"></i>
+        Actively Monitoring : There are service events
+    </div>
+    <div class="server-status-lg text-warning" data-ng-show="showMonitorStatus(instance.monitorData.status,'inactive')">
+        <i class="fa fa-exclamation text-warning"></i>
+        Monitoring Error : Monitoring for this vm has not been processed. This instance is not ready to monitor
+        at this time.
+    </div>
+    </p>
+
+    <p data-ng-show="!showMonitorStatus(instance.monitorData.status,'inactive')">
+        <strong>Event count:</strong>
+
+        <span data-ng-show="instance.monitorData.eventCount == 0" class="badge badge-success">0</span>
+        <span data-ng-show="instance.monitorData.eventCount > 0" class="badge badge-important">{{instance.monitorData.eventCount}}</span>
+    </p>
+    <p data-ng-show="!showMonitorStatus(instance.monitorData.status,'inactive')">
+        <a href="/#/compute/zones/id/{{instance.id}}/monitoring">Manage Monitoring</a>
+        &nbsp;&nbsp;
+        <a href="/#/compute/zones/id/{{instance.id}}/metrics">
+            <i class="fa fa-bar-chart"></i>
+            View Metrics
+        </a>
+    </p>
+</form>

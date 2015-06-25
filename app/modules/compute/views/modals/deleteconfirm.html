@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>Delete VM</h3>
+</div>
+<div class="modal-body">
+    <h5>Are you sure you want to delete <em>{{instance.name}}</em></h5>
+    <br>
+    <label>
+        <input type="checkbox" data-ng-model="deleteConfirm">
+        I understand I am permanently deleting this instance.
+    </label>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" ng-click="hide()">Close</button>
+    <button class="btn btn-danger" ng-click="deleteVM()" data-ng-disabled="!deleteConfirm">
+        <i class="fa fa-trash"></i>
+        Delete VM
+    </button>
+</div>

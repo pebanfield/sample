@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>Delete VIP ({{instance.vip.publicIp}})</h3>
+</div>
+<div class="modal-body">
+    <h5>Are you sure you want to delete this VIP?</h5>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" ng-click="hide()">Close</button>
+    <button class="btn btn-danger" ng-click="deleteVip(instance)">
+        <i class="fa fa-trash"></i>
+        Delete VIP
+    </button>
+</div>

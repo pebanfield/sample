@@ -1,0 +1,45 @@
+.csf-navbar {
+  background-image: url('/img/headerBack.png');
+  background-repeat: no-repeat;
+  background-position: -4em -1.2em;
+  background-color: rgb(82, 82, 82);
+  .navbar-brand{
+    margin-left: -15px;
+    width: 200px;
+    background-image: url('/img/cloudweb_logo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .navbar-nav{
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar-toggle{
+    color: grey;
+  }
+}
+
+.csf-sidenav {
+  text-align: center;
+  background: #44474B;
+  padding: 10px 0;
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  .nav {
+    li {
+      margin-top: 0;
+      a {
+        color: #97989B;
+        &:hover, &.active{
+          border-radius: 0;
+          color:#FFF;
+          background-color:#29B102;
+        }
+      }
+    }
+  }
+}
